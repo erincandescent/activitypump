@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ActivityPump</title>
+    <meta charset='utf-8'>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
+            async class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+          specStatus: "unofficial",
+          shortName:  "activitypump",
+          editors: [
+                {   name:       "Owen Shepherd",
+                    url:        "http://owenshepherd.net/",
+                    mailto:     "owen.shepherd@e43.eu" },
+          ],
+          localBiblio:  {
+            "AS2": {
+              title:    "ActivityStreams 2.0",
+              href:     "http://jasnell.github.io/w3c-socialwg-activitystreams/activitystreams2.html",
+              authors:  [
+                "J. Snell",
+              ],
+              status:   "Editors Draft",
+              publisher:  "ActivityStreams Working Group",
+            },
+
+
+            "RFC7033": {
+              title:  "WebFinger",
+              href:   "http://www.ietf.org/rfc/rfc7033.txt",
+              authors: [
+                "P. Jones",
+                "G. Salgueiro",
+                "M. Jones",
+                "J. Smarr",
+              ],
+              status: "RFC",
+              publisher: "IETF",
+            },
+
+            // Informative
+            "RFC4287": {
+              title: "The Atom Syndication Format",
+              href:  "http://www.ietf.org/rfc/rfc4287.txt",
+              authors: [
+                "M. Nottingham",
+                "R. Sayre",
+              ],
+              status: "RFC",
+              publisher: "IETF"
+            },
+
+            "PUSH": {
+              title: "PubSubHubub",
+              href:  "https://pubsubhubbub.googlecode.com/git/pubsubhubbub-core-0.4.html",
+              authors: [
+                "B. Fitzpatrick",
+                "B. Slatkin",
+                "M. Atkins",
+                "J. Genestoux",
+              ],
+              status: "Working Draft",
+            },
+
+            "Salmon": {
+              title: "The Salmon Protocol",
+              href:  "http://salmon-protocol.googlecode.com/svn/trunk/draft-panzer-salmon-00.html",
+              authors: [
+                "J. Panzer",
+              ],
+              status: "Published",
+
+            }
+          },
+      };
+    </script>
+  </head>
+  <body>
+    <section id='abstract'>
+      <p>The ActivityPump protocol is a social networking protocol based upon
+      the ActivityStreams 2.0 data format. It is derived from the protocol used
+      by the pump.io social networking platform</p>
+    </section>
+
+    <section id='sotd'>
+      <p>This document is a proposed submission to the ActivityStreams working
+      group</p>
+    </section>
+    
+    <section class='informative'>
+      <h2>Introduction</h2>
+      <p>The ActivityPump specification takes knowledge that has been learned 
+      through previous experimentation with standards for federated social 
+      networking, such as OStatus, and applies them to produce a simpler and yet
+      more powerful whole. Where appropriate, it attempts to build upon other
+      existing protocols, but it replaces them where appropriate.</p>
+      <section>
+        <h2>Building Blocks</h2>
+        <p>The two core building blocks selected for the protocol are HTTP 
+        ([[!RFC2616]]) and [[!AS2]]; the former for its' ubiquity 
+        and the latter for its' obvious application, expressiveness and 
+        simplity. On top of this, WebFinger ([[!RFC7033]]) was selected for user 
+        discovery and ??? for authentication.</p>
+        <p>Other building blocks were examined and discarded:</p>
+        <section>
+          <h2>PubSubHubub</h2>
+          <p>[[PUSH]] is a widely deployed protocol for the exchange of 
+          notifications from a publisher to subscribers. Widely deployed, 
+          [[PUSH]] can already be used to follow, in real time, the public 
+          activity of millions of blogs.</p>
+          <p>However, [[PUSH]] was designed for a publishing and subscription
+          model in which all content is public, and while it is possible to 
+          extend it to support non-public content, in doing so it becomes a very
+          different protocol. In addition, setting up [[PUSH]] subscriptions
+          becomes an additional "moving part" in the subscription machinery.</p>
+          <p>[[PUSH]] is not incompatible with ActivityPump in general, but by
+          the time the machinery to support private message delivery has been 
+          added to the protocol, it becomes duplicative to additionally 
+          implement [[PUSH]] for public message delivery; therefore, it is left
+          as an extension which implementations may implement at their leisure</p>
+        </section>
+        <section>
+          <h2>Salmon</h2>
+          <p>[[Salmon]] is a protocol for delivering responses to a post to the
+          original post's author. It was developed for Google Buzz as a method
+          of conveying comments posted on that platform back to the blog from
+          which the post originated.</p>
+          <p>It was used in the same fashion by OStatus in order to support 
+          replies in conversations; in this regard delivering them to recipients
+          which may not subscribe to the post's author.</p>
+          <p>While Salmon works for this purpose, it is itself highly complex. 
+          In addition, it is built upon ATOM [[RFC4287]], while this 
+          specification is built upon [[!JSON]], and it invents its' own 
+          authentication system  which is both orthogonal to that used by the 
+          rest of the protocol and highly complex. Finally, ActivityPump's 
+          general post delivery mechanism provides the same functionality while 
+          adding no additional complexity.</p>
+      </section>
+    </section>
+  </section>
+
+  <section id="obj-id">
+    <h2>Objects and Identities</h2>
+    <p>All Objects in [[!AS2]] should have unique global identifiers. 
+    ActivityPump extends this requirement; all objects distributed by the 
+    ActivityPump protocol MUST have unique global identifiers; these identifiers
+    must fall into one of the following groups:</p>
+    <ol>
+      <li>HTTPS URIs with their authority belonging to that of their originating
+      server.</li>
+      <li>acct: account URIs with their authority belonging to their originating
+      server. This URI is only valid for objects of the <i>person</i> type. </li>
+      <li>Randomly generated urn:uuid: URIs, for immutable objects with no
+      owner. Servers SHOULD NOT permit these objects to change after first 
+      encountered, to minimize the risk of spoofing. TODO: Can we eliminate these?</li>
+    </ol>
+    <p>Servers MUST validate the content they receive to avoid content spoofing
+    attacks. In particular, servers MUST NOT trust client submitted content and
+    MUST validate it against its' originating server; likewise, they MUST NOT
+    trust content submitted by a server other than said content's origin</p>
+    <div class="informative">
+      As an example, if example.com receives the activity 
+      <pre class="format">
+        {"verb":   "like",
+         "actor":  "https://example.net/~mallory",
+         "object": {
+            "id":       "https://example.org/~alice/note/23",
+            "content":  "I'm a goat"
+          }
+        }
+      </pre>
+      it should dereference the <code>id</code> both to ensure that it exists
+      and is a valid object, and that it is not misrepresenting the object
+      (In this example, Mallory is likely spoofing an object allegedly posted
+      by Alice)
+    </div>
+    <p>All objects must have the following properties:</p>
+    <dl>
+      <dt>id</dt><dd>The objects' unique global identifier</dd>
+      <dt>self</dt><dd>For objects with an <code>acct</code> URI scheme, the
+      URI of a dereferencable document (see <a href="#obj-dereference"></a>)</dd>
+      <dt>objectType</dt><dd>The type of the object, if this differs from the
+      default (per [[!AS2]]) note type</dd>
+    </dl>
+
+    <section id="obj-dereference">
+    <h2>Dereferencing objects</h2>
+    <p>As illustrated by the example in the previous section, it is sometimes
+    necessary to dereference an object in order to retrieve its' contents. It
+    is therefore first necessary to identify the URI to dereference. The 
+    procedure for doing this depends upon which of the URI groups defined in
+    the previous section the ID belongs to</p>
+    <ol>
+      <li>If the object's ID is a HTTPS URI, it must be directly dereferencable</li>
+      <li>If the object posesses a URI with the <code>acct</code> scheme, it 
+      must contain a <code>self</code> property with the dereferencable URI.
+      If the dereferencer does not posess the object, then it should perform
+      [[!RFC7033]] discovery on the URI to find a link with the <code>self</code>
+      relation and <code>application/activitystreams+json</code> media type</li>
+      <li><code>urn:uuid</code> URIs have no authority and are not dereferencable</li>
+    </ol>
+    <p>Once the dereferencable URI has been determined, then an updated 
+    description of the object may be retrieved by performing a GET request on
+    the URI. The requestor MUST express a preference for the 
+    <code>application/activitystreams+json</code> mediatype. The request MUST
+    be performed with authentication information corresponding to the requesting
+    user; the server SHOULD make authorization decisions based upon this 
+    information</p>
+    </section>
+  </section>
+
+  <section id="users">
+    <h2>Users</h2>
+    <p>Users in ActivityPump are represented by any URI on which discovery may
+    be done per [[!RFC7033]]. When entered directly into a user interface (for 
+    example on a login form), it is desirable to support simplified naming. For
+    this purpose cases, User ID normalization SHOULD be performed as follows:</p>
+    <ol>
+      <li>If the entered ID is a valid URI, then it is to be used directly</li>
+      <li>If the entered ID is in the form which would be valid as an E-Mail 
+      address, per [[!RFC5322]] section 3.4.1, then the ID shall be 
+      interpreted by taking the entered value and using it as the path 
+      component of a URI with the <code>acct</code> scheme.</li>
+      <li>If the entered ID is in the form which would be a valid DNS name as
+      defined in [[!RFC1034]], then it shall be interpreted as a 
+      <acct>https</acct> URI whereby the hostname portion is the entered value 
+      and the path portion is empty.</li>
+      <li>Otherwise, the entered value should be considered invalid</li>
+    </ol>
+    <p>Once the user's URI has been identified, it should be dereferenced as per
+    <a href="#obj-dereference"></a></p>
+    
+    <section>
+      <h2><i>User</i> objects</h2>
+      <p>User objects are ActivityStrems objects of the <code>person</code>
+      <code>objectType</code>. User objects MUST have, in addition to the 
+      properties mandated by <a href="#obj-id"></a>, the following properties:</p>
+      <dl>
+        <dt>objectType</dt><dd>This MUST be <code>person</code></dd>
+
+        <dt>url</dt><dd>A link to the user's "profile web page"</dd>
+
+        <dt>following</dt><dd>An [[!AS2]] collection of the users
+        that this user is following</dd>
+
+        <dt>followers</dt><dd>An [[!AS2]] collection of the users
+        that follow this user</dd>
+
+        <dt>inbox</dt><dd>A reference to an [[!AS2]] collection comprising of all the
+        messages received by the user; see <a href="#inbox"></a></dd>
+        <dt>outbox</dt><dd>An [[!AS2]] collection comprising of all the messages
+        produced by the user; see <a href="#outbox"></a>
+      </dl>
+      <p>Implementations may, in addition, provide the following properties:</p>
+      <dl>
+        <dt>preferredUsername</dt><dd>A short username which may be used to 
+        refer to the user, with no uniqueness guarantees</dd>
+        <dt>displayName</dt><dd>The preferred "nickname" or "display name" of
+        the user</dd>
+        <dt>summary</dt><dd>A quick summary or bio by the user about themself</dd>
+        <dt>image</dt><dd>A media link to the user's profile picture (this may
+        be a thumbnail)</dd>
+      </dl>
+      <pre class="example">
+        // TODO
+      </pre>
+    </section>
+  </section>
+
+  <section id="auth">
+    <h2>Authentication</h2>
+    <p>ActivityPump uses authentication for two purposes; first, to 
+    authenticate clients to servers, and secondly to authenticate servers to
+    each other. This is an area for discussion; Pump.io uses OAuth 1.0 for this
+    in a somewhat clunky manner. OAuth 2.0 would be one possible solution; we
+    would need to use it to define a protocol</p>
+    <p>The authentication problem is somewhat complicated by </p>
+  </section>
+
+  <section id="collections">
+    <h2>Collections and Streams</h2>
+    <p>[[!AS2]] defines the collection concept; ActivityPump defines several
+    collections with special behavior. Additionally, it defines a subset of 
+    collections termed <a href="#streams">streams</a>. </p>
+
+    <section id="followers">
+      <h2>Followers Collection</h2>
+      <p>Every user MUST have a followers collection. This is the default
+      recipient list for otherwise unaddressed activities, and additionally
+      is used as a distribution target for any activities addressed to the
+      <a href="#public"></a></p>
+    </section>
+
+    <section id="following">
+      <h2>Following Collection</h2>
+      <p>Every user MUST have a following collection. This is a list of everybody
+      that the user has followed</p>
+    </section>
+
+    <section id="favorites">
+      <h2>Favorites Collection</h2>
+      <p>Every user SHOULD have a favorites collection. This is a list of every
+      object that the user has favorited (See <a href="#activity-favorite"></a>)
+      </p>
+    </section>
+
+    <section id="streams">
+      <h2>Streams</h2>
+      <p>The streams nomencluture is applied to any collection comprosed purely of 
+      activities. These objects should be so declared using the <code>objectTypes</code>
+      property:</p>
+      <pre class="formatted">
+        {
+          "id": "https://example.com/~alice/my-stream",
+          "objectType": "collection",
+          "objectTypes": ["activity"]
+          "items": [ ... ]
+        }
+      </pre>
+      <p>Streams are always presented in reverse chronological order</p>
+      <p><b>Todo: new [[!AS2]] objectType?</b></p>
+      <section id="outbox">
+        <h2>Outbox</h2>
+        <p>The <code>outbox</code> stream contains every object that the user
+        has ever published, subject to the ability of the requestor to retrieve
+        the object (That is, the contents of the outbox are filtered by the
+        permissions of the person reading it)</p>
+
+        <p>A client may submit an [[!AS2]] activity to the server 
+        using a HTTP POST request to the dereferencable URI of the outbox collection. 
+        In this case, the request's Content-Type MUST
+        be <code>application/activitystreams+json</code>, and the request MUST be authenticated
+        with credentials authorized to act on behalf of the user to whom the 
+        outbox belongs. Such submitted activities will be added to the front of 
+        the feed retrieved by GET requests to the same endpoint.</p>
+
+        <p>Activity distribution and access control is per the audience targetting
+        properties from the [[!AS2]] specification. For each entry in the 
+        addressing properties of an object, the server shall</p>
+        <ol>
+          <li>If the entry is a collection, then the server MUST dereference the
+          collection (with the user's credentials) and add each person in the
+          collection to the list of recipients for the message. Servers MUST
+          limit the number of layers of indirections through collections which
+          will be performed, which MAY be one.
+          <li>If the entry is not a collection, then the server MUST perform
+          discovery on the object (which may not be of person 
+          <code>objectType</code>) to discover its' activity-inbox address
+          <li>Once the complete list of recipients has been determined, the 
+          server MUST then perform a HTTP POST, with authorization as the 
+          submitting user, of the submitted activity body to each endpoint.
+        </ol>
+        <p>Servers SHOULD perform such delivery asynchronously to completion of
+        the original activity submission request, and SHOULD additionally retry
+        delivery to recipients if it fails due to network error</p>
+        <p>If no recipients are specified, the user's preferred default audience
+        should be applied. The default value for the default audience SHOULD
+        be the user's <a href="#followers">followers</a> collection</p>
+      </section>
+
+      <section id="inbox">
+        <h2>Inbox</h2>
+
+        <p>The <code>inbox</code> stream contains all objects received by the user.
+        The inbox MUST be filtered acording to the requestors' permission; this 
+        MAY include allowing read access only to the owning user</p>
+
+        <p>A server may submit a HTTP POST to the <a href="#obj-dereference">
+        dereferencable URI</a> of the <code>inbox</code> endpoint. This request
+        MUST be authenticated with the credentials of the user identified by the
+        <code>actor</code> stanza of the activity being delivered. The request
+        MUST be of the [[!AS2]] content type; it MUST be a single activity.</p>
+
+        <p>The server SHOULD perform de-duplication of activities, whereby it 
+        discards repeats of already delivered activities (this can occur if an 
+        activity is addressed both to a user's followers, and a specific user 
+        which happens to follow said user, and the server has failed to 
+        de-duplicate the recipients list, for example). Such deduplication SHOULD
+        be performed by comparing the <code>id</code> of the activities.</p>
+      </section>
+    </section>
+  </section>
+
+  <section id="public-addressing">
+    <h2>Public Addressing</h2>
+    <p>In addition to [[!AS2]] collections and objects, 
+    Activities may additionally be addressed to the special "public" 
+    audience denoted by the object
+    </p>
+    <pre>
+      {
+        "id": "http://activityschema.org/collection/public",
+        "objectType": "collection"
+      }
+    </pre>
+    <p>Activities addressed to this special URI shall be accessible to all 
+    users, without authentication.</p>
+    <p>For the purposes of delivery, the server shall treat the public 
+    collection as if it contains the same entries as the user's 
+    <a href="#followers">followers collection</a>.
+  </section>
+
+  <section id="activities">
+    <h2>Activities</h2>
+    <p>The core of any [[!AS2]] based protocol is activities within. ActivityPump
+    places no restrictions on the activities which may be distributed; however,
+    it defines certain activities with special behaviors</p>
+    <section id="activity-follow">
+      <h2><code>follow</code> and <code>stop-following</code></h2>
+      <p>The <code>follow</code> activity follows a person; while the 
+      <code>stop-following</code> activity reverses a previous <code>follow</code>
+      action.</p>
+      <p>These activities should be specifically delivered directly to the person
+      being followed, in addition to any other recipients</p>
+      <p>Upon recipt of one of these activities, the actor's server should forward
+      the activities specifically to the object specified in the <code>object</code>
+      property. Upon recipt, the server belonging to the user being followed 
+      MUST add the actor to its' <a href="#followers">Followers collection</a>; 
+      and the actor's server MUST add the target object to their 
+      <a href="#following">Following collection</a>.
+      <p>The delivery to the object being followed SHOULD be performed 
+      synchronously so that errors can be reported</p>
+    </section>
+
+    <section id="activity-favorite">
+      <h2><code>favorite</code>/<code>like</code> and <code>unfavorite</code>/<code>unlike</code></h2>
+      <p>These activities should add 
+    </section>
+  </section>
+  </body>
+</html>
