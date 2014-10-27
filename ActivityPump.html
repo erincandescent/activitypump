@@ -140,6 +140,38 @@
     </section>
   </section>
 
+  <section id="basic-resources">
+    <h2>Basic Resources</h2>
+    <p>The protocol is built around the following basic resources:<p>
+    <ul>
+      <li><a href="#obj-id">Objects.</a> Every Object has a representitive 
+      resource, given by its' <code>self</code> or <code>id</code> 
+      property.</li>
+      <li><a href="#outbox">A user or object's outbox</a>. This contains all of 
+      a user's activities.</li>
+      <li><a href="#inbox">A user or object's inbox</a>. This contains all of
+      the activities directed at a user.</li>
+    </ul>
+    <p>Everything posted to a users outbox should be delivered by their server 
+    to the inbox of every recipient.</p>
+    <section id="requests">
+      <h2>HTTP Requests</h2>
+      <p>For all resources documented in this protocol, the server MAY use 
+      HTTP content negotiation. When making a request, implementations MUST
+      list the <code>application/activitystreams+json</code> in its' HTTP 
+      <code>Accept</code> header. The specification behavior applies <b>only</b>
+      if the negotiated content type is 
+      <code>application/activitystreams+json</code>.</p>
+      <p>Likewise, for all requests with a request body, the implementation MUST
+      specify <code>application/activitystreams+json</code> or 
+      <code>multipart/related</code> as its' <code>Content-Type</code>. If
+      <code>multipart/related</code> is specified, then the root part must have
+      the <code>application/activitystreams+json</code> media type.</p>
+      <p>The <code>multipart/related</code> content type MUST NOT be used unless
+      explicitly documented as supported for the endpoint.</p>
+    </section>
+  </section>
+
   <section id="obj-id">
     <h2>Objects and Identities</h2>
     <p>All Objects in [[!ActivityStreams]] should have unique global identifiers.
@@ -375,6 +407,12 @@
         <p>If no recipients are specified, the user's preferred default audience
         should be applied. The default value for the default audience SHOULD
         be the user's <a href="#followers">followers</a> collection</p>
+        <p>A client MAY submit <code>multipart/related</code> objects to this
+        endpoint. This multipart object should be interpreted as per 
+        [[!RFC2557]]. For each reference in the Activity contained within the 
+        root part to another part, the server should create a resource 
+        corresponding to that part and replace the URI in the Activity with the
+        URI in that resource</p>
       </section>
 
       <section id="inbox">
