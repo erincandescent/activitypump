@@ -25,20 +25,6 @@
               publisher:  "ActivityStreams Working Group",
             },
 
-
-            "RFC7033": {
-              title:  "WebFinger",
-              href:   "http://www.ietf.org/rfc/rfc7033.txt",
-              authors: [
-                "P. Jones",
-                "G. Salgueiro",
-                "M. Jones",
-                "J. Smarr",
-              ],
-              status: "RFC",
-              publisher: "IETF",
-            },
-
             // Informative
             "RFC4287": {
               title: "The Atom Syndication Format",
@@ -100,8 +86,7 @@
         <p>The two core building blocks selected for the protocol are HTTP
         ([[!RFC2616]]) and [[!ActivityStreams]]; the former for its' ubiquity
         and the latter for its' obvious application, expressiveness and
-        simplity. On top of this, WebFinger ([[!RFC7033]]) was selected for user
-        discovery and <b>TODO</b> for authentication.</p>
+        simplity.</p>
         <p>Other building blocks were examined and discarded:</p>
         <section>
           <h2>PubSubHubub</h2>
@@ -235,7 +220,6 @@
       <ol>
         <li>HTTPS URIs with their authority belonging to that of their originating
         server.</li>
-        <li>acct: account URIs with their authority belonging to their originating
         server. This URI is only valid for objects of the <i>person</i> type. </li>
         <li>An ID explicitly specified as the JSON <code>null</code> object, which
         implies an anonymous object (a part of its' parent context)</li>
@@ -246,7 +230,6 @@
       <p>All objects must have the following properties:</p>
       <dl>
         <dt>id</dt><dd>The objects' unique global identifier</dd>
-        <dt>self</dt><dd>For objects with an <code>acct</code> URI scheme, the
         URI of a dereferencable document (see <a href="#obj-uri"></a>)</dd>
         <dt>@type</dt><dd>The type of the object</dd>
       </dl>
@@ -261,11 +244,6 @@
       the previous section the ID belongs to</p>
       <ol>
         <li>If the object's ID is a HTTPS URI, it must be directly dereferencable</li>
-        <li>If the object posesses a URI with the <code>acct</code> scheme, it
-        must contain a <code>self</code> property with the dereferencable URI.
-        If the dereferencer does not posess the object, then it should perform
-        [[!RFC7033]] discovery on the URI to find a link with the <code>self</code>
-        relation and <code>application/activitystreams+json</code> media type</li>
         <li>Objects with a <code>null</code> ID have no authority and are not
         dereferencable (their content is a part of their parent object)</li>
       </ol>
@@ -340,22 +318,14 @@
 
   <section id="actors">
     <h2>Actors</h2>
-    <p>Actors in ActivityPump are represented by any URI on which discovery may
-    be done per [[!RFC7033]]. When entered directly into a user interface (for
+    <p>Actors in ActivityPump are represented by HTTP URI. When entered directly into a user interface (for
     example on a login form), it is desirable to support simplified naming. For
     this purpose cases, ID normalization SHOULD be performed as follows:</p>
     <ol>
       <li>If the entered ID is a valid URI, then it is to be used directly</li>
-      <li>If the entered ID is in the form which would be valid as an E-Mail
-      address, per [[!RFC5322]] section 3.4.1, then the ID shall be
-      interpreted by taking the entered value and using it as the path
-      component of a URI with the <code>acct</code> scheme.</li>
-      <li>If the entered ID is in the form which would be a valid DNS name as
-      defined in [[!RFC1034]], then it shall be interpreted as a
-      <acct>https</acct> URI whereby the hostname portion is the entered value
-      and the path portion is empty.</li>
       <li>Otherwise, the entered value should be considered invalid</li>
     </ol>
+    <div class="issue">How to normalize entries without URI scheme, e.g. <em>tantek.com</em></div>
     <p>Once the actor's URI has been identified, it should be dereferenced as per
     <a href="#obj-dereference"></a></p>
 
