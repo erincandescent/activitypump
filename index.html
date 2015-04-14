@@ -103,7 +103,7 @@
           the time the machinery to support private message delivery has been
           added to the protocol, it becomes duplicative to additionally
           implement [[PUSH]] for public message delivery; therefore, it is left
-          as an extension which implementations may implement at their leisure</p>
+          as an extension which implementations may implement at their leisure.</p>
         </section>
         <section>
           <h2>Salmon</h2>
@@ -139,7 +139,7 @@
         the user; in particular, it adds the specified object to the collection
         of objects the user has liked.</li>
         <li>A consequence of the above action (per
-        <a href="#notification"></a>) is that ths server hosting
+        <a href="#notification"></a>) is that the server hosting
         the liked object will be notified of the operation, and will normally
         add the activity to the list of "likes" the object has received</li>
         <li>Finally, the server receiving the like will distribute this activity
@@ -248,7 +248,7 @@
     </section>
     <section id="obj-methods">
       <h2>Methods on objects</h2>
-      <p>There are several common operations upon social social objects, which
+      <p>There are several common operations upon social objects, which
       are expressed using standard HTTP methods applied to the Object's
       <a href="#obj-uri">dereferencable URI</a>. To avoid conflict with existing
       standards (and hence support "multiprotocol" server implemnetations),
@@ -290,7 +290,7 @@
         <p><b>This method requires user authorization</b></p>
         <p>The PUT method may be used by a client to update the version of the
         object stored on the server.</p>
-        <p>The server MUST insert an activity with the <code>updated</code> verb
+        <p>The server MUST insert an activity with the <code>update</code> verb
         and this object as its' <code>object</code> into the actor's
         <a href="#outbox">feed</a></p>
       </section>
@@ -299,7 +299,7 @@
         <p><b>This method requires user authorization</b></p>
         <p>The <code>DELETE</code> method may be used by a client to delete the
         object. If successful, all requests to the URI which would have
-        previously been successful SHOULD return the 410 Gone response code</p>
+        previously been successful SHOULD return the 410 Gone response code.</p>
       </section>
       <section id="method-notify">
         <h2>The <code>NOTIFY</code> method</h2>
@@ -307,7 +307,7 @@
         <p><b>This method requires origin authorization</b></p>
         <p>The <code>NOTIFY</code> method is used in cross-server communication in
         order to perform accurate cross server notification and delivery as
-        documented in <a href="#notification"></a></p>
+        documented in <a href="#notification">.</a></p>
       </section>
     </section>
   </section>
@@ -322,7 +322,7 @@
       <li>Otherwise, the entered value should be considered invalid</li>
     </ol>
     <div class="issue">How to normalize entries without URI scheme, e.g. <em>tantek.com</em></div>
-    <p>Once the actor's URI has been identified, it should be dereferenced as per
+    <p>Once the actor's URI has been identified, it should be dereferenced.</p>
     <a href="#obj-dereference"></a></p>
 
     <section id="actor-objects">
@@ -408,8 +408,8 @@
       property:</p>
       <pre class="formatted">
         {
-          "id": "https://example.com/~alice/my-stream",
-          "objectType": "collection",
+          "@id": "https://example.com/~alice/my-stream",
+          "@type": "collection",
           "objectTypes": ["activity"]
           "items": [ ... ]
         }
@@ -474,7 +474,7 @@
         will be performed, which MAY be one.
         <li>If the entry is not a collection, then the server MUST perform
         discovery on the object (which may not be of person
-        <code>objectType</code>) to discover its' activity-inbox address
+        <code>@type</code>) to discover its' activity-inbox address
         <li>Once the complete list of recipients has been determined, the
         server MUST then deliver the activity to each recipient. For a federated
         implementation, this must be done by performing a HTTP POST, with prohom
