@@ -537,7 +537,31 @@
 
   <section id="content-objects">
     <h2>Content Objects</h2>
-    <p><b>TODO. Cover replies, etc</b></p>
+    <p>There are objects which have a <code>content</code> property, the value of which
+    is provided by the user. These can be for example note, blog, image, etc.
+
+    <section id="reply-objects">
+      <h3>Reply Objects</h3>
+      <p>A response can be any content object. The object MUST have an additional
+      <code>inReplyTo</code> property. This property should have the object that
+      your reply is in response to.</p>
+      <pre>
+	{
+	  "@id": "https://example.com/~alice/note/72",
+	  "@type": "Note",
+	  "content": "This is a reply to a note posted by John Smith!",
+	  "inReplyTo": {
+	    "@id": "https://example.org/~john/note/5",
+	    "@type": "Note",
+	    "content": "Hey! This is a note in ActivityPump ^_^"
+	  }
+	}
+      </pre>
+      <p><b>This is only applicable to federated implementations:</b> When a response
+      is sent to the outbox of a user, it should be propegated to the original server
+      thateauthored the object that the response is in reply to. That server should then
+      send that response to all recipiants that the original object was sent to.</p>
+    </section>
   </section>
 
   <section id="activities">
