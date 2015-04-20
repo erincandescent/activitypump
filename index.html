@@ -571,7 +571,67 @@
     are distributed to recipients' <a href="#inbox">inboxes</a>. ActivityPump
     places no restrictions on the activities which may be distributed; however,
     it defines certain activities with special behaviors</p>
-    <p>TODO</p>
+    <section id="post-activity">
+      <h3>Post Activity</h3>
+      <p>The <code>post</code> verb is used to when posting a new object. This has the
+	side effect that of the object that they are posting is being created.</p>
+    </section>
+    <section id="update-activity">
+      <h3>Update Activity</h3>
+      <p>The <code>update</code> verb is used when updating an already existing object.
+	The object should be modified to reflect the new structure in defined in the update
+	activity.</p>
+    </section>
+    <section id="delete-activity">
+      <h3>Delete Activity</h3>
+      <p>The <code>delete</code> verb is used to delete an already existing object. This
+	MUST leave a shell of the object that will be displayed in activities which reference
+	the deleted object. If the deleted object is requested the server should respond with
+	the HTTP 410 Gone status code.
+
+	A deleted object:
+	<pre>
+	  {
+	    "@id": "https://example.com/~alice/note/72",
+	    "@type": "Note",
+	    "published": "2015-02-10T15:04:55Z",
+	    "updated": "2015-02-10T15:04:55Z",
+	    "deleted": "2015-02-10T15:04:55Z",
+	  }
+	</pre>
+    </section>
+    <section id="follow-activity">
+      <h3>Follow Activity</h3>
+      <p>The <code>follow</code> verb is used to subscribe to the activities of another user.
+	Once the user has followed a user, activities shared with the Follows of that user
+	SHOULD be added to the actors's inbox.</p>
+    </section>
+    <section id="stop-follow-activity">
+      <h3>Stop-follow Activity</h3>
+      <p>The <code>stop-follow</code> verb is used to unsubscribe to the activities of actor.
+	Once the user has unfollowed a user, the new activities posted to the Followers collection
+	of that user SHOULD not be added to the actors's inbox.</p>
+    </section>
+    <section id="favorite-like-activity">
+      <h3>Favourite or Like Activity</h3>
+      <p>The <code>favorite</code> and <code>like</code> verbs are synonyms. These are used to add
+	the actor to list of users who have liked or favorited the object.</p>
+    </section>
+    <section id="unfavorite-unlike-activity">
+      <h3>Unfavorite or Unlike Activity</h3>
+      <p>The <code>unfavorite</code> and <code>unlike</code> verbs are synonyms. These are used to
+	remove the actor from the list of users who have liked or favorited the object.</p>
+    </section>
+    <section id="add-activity">
+      <h3>Add Activity</h3>
+      <p>The <code>add</code> verb is used to add the object to the collection specified in the
+	<code>target</code> property of the activity.
+    </section>
+    <section id="remove-activity">
+      <h3>Remove Activity</h3>
+      <p>The <code>remove</code> verb is used to remove the object from the collection specified in the
+	<code>target</code> property of the activity.
+    </section>
   </section>
   </body>
 </html>
