@@ -504,7 +504,7 @@
       <p>Notifications shall be sent to each of the following objects:</p>
       <ul>
         <li>The Objects specified by the activity's "object" and "target" properties</li>
-        <li>Any Objects specified in the activuty object's "inReplyTo" property</li>
+        <li>Any Objects specified in the activity object's "inReplyTo" property</li>
       </ul>
       <p>Servers may perform notification to local objects as they choose.
       Federated servers MUST notify remote objects using the
@@ -631,6 +631,12 @@
       <h3>Remove Activity</h3>
       <p>The <code>remove</code> verb is used to remove the object from the collection specified in the
 	<code>target</code> property of the activity.
+    </section>
+    <section id="block-activity">
+      <h3>Block Activity</h3>
+      <p>The <code>block</code> verb is used to indicate that the actor does not want a user (defined in
+	the <code>object</code> property) to be able to interact with objects posted by the user. The
+	server SHOULD prevent the user from interacting with any object posted by the actor.</p>
     </section>
   </section>
   </body>
