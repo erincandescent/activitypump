@@ -225,7 +225,7 @@
       </ol>
       <p>A server receiving an object with no specified <code>id</code> should
       allocate an object ID in the user's namespace and attach it to the posted
-      object</p>
+      object.</p>
       <p>All objects must have the following properties:</p>
       <dl>
         <dt>id</dt><dd>The object's unique global identifier</dd>
@@ -239,7 +239,7 @@
       necessary to dereference an object in order to retrieve its contents. It
       is therefore first necessary to identify the URI to dereference. The
       procedure for doing this depends upon which of the URI groups defined in
-      the previous section the ID belongs to</p>
+      the previous section the ID belongs to:</p>
       <ol>
         <li>If the object's ID is a HTTPS URI, it must be directly dereferencable</li>
         <li>Objects with a <code>null</code> ID have no authority and are not
@@ -273,9 +273,9 @@
         specification</li>
       </ul>
       <p>Servers MAY implement other behavior for requests which do not comply
-      with the above requirements (for example, servers may implement additional
+      with the above requirements. (For example, servers may implement additional
       legacy protocols, or may use the same URI for both HTML and
-      ActivityStreams representations of a resource)</p>
+      ActivityStreams representations of a resource.)</p>
       <p>Servers MAY require authorization and implement their own authentication
       rules. Servers SHOULD fail requests which do not pass their authorization or
       authentication checks with the appropriate HTTP error code, or the 404 Not
@@ -283,7 +283,7 @@
 
       <section id="method-get">
         <h2>The <code>GET</code> method</h2>
-        <p>The GET method shall return an up-to-date version of the object</p>
+        <p>The GET method shall return an up-to-date version of the object.</p>
       </section>
       <section id="method-put">
         <h2>The <code>PUT</code> method</h2>
@@ -292,7 +292,7 @@
         object stored on the server.</p>
         <p>The server MUST insert an activity with the <code>update</code> verb
         and this object as its <code>object</code> into the actor's
-        <a href="#outbox">feed</a></p>
+        <a href="#outbox">feed</a>.</p>
       </section>
       <section id="method-delete">
         <h2>The <code>DELETE</code> method</h2>
