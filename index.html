@@ -84,8 +84,8 @@
       <section>
         <h2>Building Blocks</h2>
         <p>The two core building blocks selected for the protocol are HTTP
-        ([[!RFC2616]]) and [[!ActivityStreams]]; the former for its' ubiquity
-        and the latter for its' obvious application, expressiveness and
+        ([[!RFC2616]]) and [[!ActivityStreams]]; the former for its ubiquity
+        and the latter for its obvious application, expressiveness and
         simplicity.</p>
         <p>Other building blocks were examined and discarded:</p>
         <section>
@@ -116,7 +116,7 @@
           which may not subscribe to the post's author.</p>
           <p>While Salmon works for this purpose, it is itself highly complex.
           In addition, it is built upon ATOM [[RFC4287]], while this
-          specification is built upon [[!JSON]], and it invents its' own
+          specification is built upon [[!JSON]], and it invents its own
           authentication system  which is both orthogonal to that used by the
           rest of the protocol and highly complex. Finally, ActivityPump's
           general post delivery mechanism provides the same functionality while
@@ -193,7 +193,7 @@
     <p>Servers MUST validate the content they receive to avoid content spoofing
     attacks. In particular, servers MUST NOT trust client submitted content, and
     federated servers also MUST NOT trust content received from a server other than the content's
-    origin. Servers MUST validate such against its' originating server.</p>
+    origin. Servers MUST validate such against its originating server.</p>
     <div class="informative">
       As an example, if example.com receives the activity
       <pre class="format">
@@ -221,7 +221,7 @@
         <li>HTTPS URIs with their authority belonging to that of their originating
         server.</li>
         <li>An ID explicitly specified as the JSON <code>null</code> object, which
-        implies an anonymous object (a part of its' parent context)</li>
+        implies an anonymous object (a part of its parent context)</li>
       </ol>
       <p>A server receiving an object with no specified <code>id</code> should
       allocate an object ID in the user's namespace and attach it to the posted
@@ -236,7 +236,7 @@
     <section id="obj-uri">
       <h2>Dereferencable Object URIs</h2>
       <p>As illustrated by the example in the previous section, it is sometimes
-      necessary to dereference an object in order to retrieve its' contents. It
+      necessary to dereference an object in order to retrieve its contents. It
       is therefore first necessary to identify the URI to dereference. The
       procedure for doing this depends upon which of the URI groups defined in
       the previous section the ID belongs to</p>
@@ -291,7 +291,7 @@
         <p>The PUT method may be used by a client to update the version of the
         object stored on the server.</p>
         <p>The server MUST insert an activity with the <code>update</code> verb
-        and this object as its' <code>object</code> into the actor's
+        and this object as its <code>object</code> into the actor's
         <a href="#outbox">feed</a></p>
       </section>
       <section id="method-delete">
@@ -474,7 +474,7 @@
         will be performed, which MAY be one.
         <li>If the entry is not a collection, then the server MUST perform
         discovery on the object (which may not be of person
-        <code>@type</code>) to discover its' activity-inbox address
+        <code>@type</code>) to discover its activity-inbox address
         <li>Once the complete list of recipients has been determined, the
         server MUST then deliver the activity to each recipient. For a federated
         implementation, this must be done by performing a HTTP POST, with prohom
