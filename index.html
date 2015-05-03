@@ -196,21 +196,24 @@
     origin. Servers MUST validate such against its originating server.</p>
     <div class="informative">
       As an example, if example.com receives the activity
-      <pre class="format">
-        {"verb":   "like",
-         "actor":  "https://example.net/~mallory",
+      <pre class="example">
+       {
+         "@context": "http://www.w3.org/ns/activitystreams",
+         "@type": "Like",
+         "actor": "https://example.net/~mallory",
          "object": {
-            "@id":      "https://example.org/~alice/note/23",
-            "author":   "https://example.org/~alice",
-            "content":  "I'm a goat"
-          }
-        }
+           "@id": "https://example.org/~alice/note/23",
+           "author": "https://example.org/~alice",
+           "content": "I'm a goat"
+         }
+       }
       </pre>
       it should dereference the <code>id</code> both to ensure that it exists
       and is a valid object, and that it is not misrepresenting the object
       (In this example, Mallory is likely spoofing an object allegedly posted
       by Alice)
     </div>
+    <div class="issue">Mention requirement of <em>JSON-LD @context</em></div>
     <section id="obj-id">
       <h2>Object Idenitifers</h2>
       <p>All Objects in [[!ActivityStreams]] should have unique global identifiers.
@@ -228,7 +231,7 @@
       object.</p>
       <p>All objects must have the following properties:</p>
       <dl>
-        <dt>id</dt><dd>The object's unique global identifier</dd>
+        <dt>@id</dt><dd>The object's unique global identifier</dd>
         <dt>@type</dt><dd>The type of the object</dd>
       </dl>
     </section>
@@ -359,7 +362,11 @@
       </dl>
       <pre class="example">
         {
-          "@type": "person",
+          "@context": [
+            "http://www.w3.org/ns/activitystreams",
+            "http://www.w3.org/ns/activitypump"
+          ],
+          "@type": "Person",
           "@id": "https://johnsmith.example.com/",
           "following": "https://johnsmith.example.com/following.json",
           "followers": "https://johnsmith.example.com/followers.json",
@@ -448,11 +455,15 @@
       <p>The streams nomencluture is applied to any collection comprosed purely of
       activities. These objects should be so declared using the <code>objectTypes</code>
       property:</p>
-      <pre class="formatted">
+      <pre class="example">
         {
+          "@context": [
+            "http://www.w3.org/ns/activitystreams",
+            "http://www.w3.org/ns/activitypump"
+          ],
           "@id": "https://example.com/~alice/my-stream",
-          "@type": "collection",
-          "objectTypes": ["activity"]
+          "@type": "Collection",
+          "itemsType": ["activity"]
           "items": [ ... ]
         }
       </pre>
@@ -491,7 +502,7 @@
         activity is addressed both to a user's followers, and a specific user
         which happens to follow said user, and the server has failed to
         de-duplicate the recipients list, for example). Such deduplication MUST
-        be performed by comparing the <code>id</code> of the activities and
+        be performed by comparing the <code>@id</code> of the activities and
         dropping any activities already seen.</p>
       </section>
     </section>
@@ -562,10 +573,11 @@
       <p>In addition to [[!ActivityStreams]] collections and objects,
       Activities may additionally be addressed to the special "public"
       audience denoted by the object</p>
-      <pre>
+      <pre class="example">
         {
+          "@context": "http://www.w3.org/ns/activitystreams",
           "@id": "http://activityschema.org/collection/public",
-          "@type": "collection"
+          "@type": "Collection"
         }
       </pre>
       <p>Activities addressed to this special URI shall be accessible to all
@@ -587,17 +599,18 @@
       <p>A response can be any content object. The object MUST have an additional
       <code>inReplyTo</code> property. This property should have the object that
       your reply is in response to.</p>
-      <pre>
-	{
-	  "@id": "https://example.com/~alice/note/72",
-	  "@type": "Note",
-	  "content": "This is a reply to a note posted by John Smith!",
-	  "inReplyTo": {
-	    "@id": "https://example.org/~john/note/5",
-	    "@type": "Note",
-	    "content": "Hey! This is a note in ActivityPump ^_^"
-	  }
-	}
+      <pre class="example">
+        {
+          "@context": "http://www.w3.org/ns/activitystreams",
+          "@id": "https://example.com/~alice/note/72",
+          "@type": "Note",
+          "content": "This is a reply to a note posted by John Smith!",
+          "inReplyTo": {
+            "@id": "https://example.org/~john/note/5",
+            "@type": "Note",
+            "content": "Hey! This is a note in ActivityPump ^_^"
+          }
+        }
       </pre>
       <p><b>This is only applicable to federated implementations:</b> When a response
       is sent to the outbox of a user, it should be propegated to the original server
@@ -615,68 +628,69 @@
     it defines certain activities with special behaviors</p>
     <section id="post-activity">
       <h3>Post Activity</h3>
-      <p>The <code>post</code> verb is used to when posting a new object. This has the
+      <p>The <code>Post</code> activity is used to when posting a new object. This has the
 	side effect that of the object that they are posting is being created.</p>
     </section>
     <section id="update-activity">
       <h3>Update Activity</h3>
-      <p>The <code>update</code> verb is used when updating an already existing object.
+      <p>The <code>Update</code> activity is used when updating an already existing object.
 	The object should be modified to reflect the new structure in defined in the update
 	activity.</p>
     </section>
     <section id="delete-activity">
       <h3>Delete Activity</h3>
-      <p>The <code>delete</code> verb is used to delete an already existing object. This
+      <p>The <code>Delete</code> activity is used to delete an already existing object. This
 	MUST leave a shell of the object that will be displayed in activities which reference
 	the deleted object. If the deleted object is requested the server should respond with
 	the HTTP 410 Gone status code.
 
 	A deleted object:
-	<pre>
-	  {
-	    "@id": "https://example.com/~alice/note/72",
-	    "@type": "Note",
-	    "published": "2015-02-10T15:04:55Z",
-	    "updated": "2015-02-10T15:04:55Z",
-	    "deleted": "2015-02-10T15:04:55Z",
-	  }
-	</pre>
+<pre class="example">
+  {
+    "@context": "http://www.w3.org/ns/activitystreams",
+    "@id": "https://example.com/~alice/note/72",
+    "@type": "Note",
+    "published": "2015-02-10T15:04:55Z",
+    "updated": "2015-02-10T15:04:55Z",
+    "deleted": "2015-02-10T15:04:55Z",
+  }
+</pre>
     </section>
     <section id="follow-activity">
       <h3>Follow Activity</h3>
-      <p>The <code>follow</code> verb is used to subscribe to the activities of another user.
+      <p>The <code>Follow</code> activity is used to subscribe to the activities of another user.
 	Once the user has followed a user, activities shared with the Follows of that user
 	SHOULD be added to the actors's inbox.</p>
     </section>
-    <section id="stop-follow-activity">
-      <h3>Stop-follow Activity</h3>
-      <p>The <code>stop-follow</code> verb is used to unsubscribe to the activities of actor.
+    <section id="unfollow-activity">
+      <h3>Unfollow Activity</h3>
+      <p>The <code>Unfollow</code> activity is used to unsubscribe to the activities of actor.
 	Once the user has unfollowed a user, the new activities posted to the Followers collection
 	of that user SHOULD not be added to the actors's inbox.</p>
     </section>
     <section id="favorite-like-activity">
       <h3>Favourite or Like Activity</h3>
-      <p>The <code>favorite</code> and <code>like</code> verbs are synonyms. These are used to add
+      <p>The <code>Favorite</code> and <code>Like</code> activities are synonyms. These are used to add
 	the actor to list of users who have liked or favorited the object.</p>
     </section>
     <section id="unfavorite-unlike-activity">
       <h3>Unfavorite or Unlike Activity</h3>
-      <p>The <code>unfavorite</code> and <code>unlike</code> verbs are synonyms. These are used to
+      <p>The <code>Unfavorite</code> and <code>Unlike</code> activity are synonyms. These are used to
 	remove the actor from the list of users who have liked or favorited the object.</p>
     </section>
     <section id="add-activity">
       <h3>Add Activity</h3>
-      <p>The <code>add</code> verb is used to add the object to the collection specified in the
+      <p>The <code>Add</code> activity is used to add the object to the collection specified in the
 	<code>target</code> property of the activity.
     </section>
     <section id="remove-activity">
       <h3>Remove Activity</h3>
-      <p>The <code>remove</code> verb is used to remove the object from the collection specified in the
+      <p>The <code>Remove</code> activity is used to remove the object from the collection specified in the
 	<code>target</code> property of the activity.
     </section>
     <section id="block-activity">
       <h3>Block Activity</h3>
-      <p>The <code>block</code> verb is used to indicate that the actor does not want a user (defined in
+      <p>The <code>Block</code> activity is used to indicate that the actor does not want a user (defined in
 	the <code>object</code> property) to be able to interact with objects posted by the user. The
 	server SHOULD prevent the user from interacting with any object posted by the actor.</p>
     </section>
