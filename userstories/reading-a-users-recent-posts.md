@@ -143,5 +143,5 @@ Authorization: Bearer xx-bearer-token-here-xx
 }
 ```
 
-Iris's client displays Sam's recent posts in a new tab in her mobile
-client.  That chicken joke sure was a good one!
+Iris's mobile client displays Sam's recent posts in a new tab.  That
+chicken joke sure was a good one!
