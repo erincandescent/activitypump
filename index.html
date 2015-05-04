@@ -31,40 +31,6 @@
               status:   "Editors Draft",
               publisher:  "ActivityStreams Working Group",
             },
-
-            // Informative
-            "RFC4287": {
-              title: "The Atom Syndication Format",
-              href:  "http://www.ietf.org/rfc/rfc4287.txt",
-              authors: [
-                "M. Nottingham",
-                "R. Sayre",
-              ],
-              status: "RFC",
-              publisher: "IETF"
-            },
-
-            "PUSH": {
-              title: "PubSubHubub",
-              href:  "https://pubsubhubbub.googlecode.com/git/pubsubhubbub-core-0.4.html",
-              authors: [
-                "B. Fitzpatrick",
-                "B. Slatkin",
-                "M. Atkins",
-                "J. Genestoux",
-              ],
-              status: "Working Draft",
-            },
-
-            "Salmon": {
-              title: "The Salmon Protocol",
-              href:  "http://salmon-protocol.googlecode.com/svn/trunk/draft-panzer-salmon-00.html",
-              authors: [
-                "J. Panzer",
-              ],
-              status: "Published",
-
-            }
           },
       };
     </script>
@@ -81,55 +47,6 @@
       group</p>
     </section>
 
-    <section class='informative'>
-      <h2>Background</h2>
-      <p>The ActivityPump specification takes knowledge that has been learned
-      through previous experimentation with standards for federated social
-      networking, such as OStatus, and applies them to produce a simpler and yet
-      more powerful whole. Where appropriate, it attempts to build upon other
-      existing protocols, but it replaces them where appropriate.</p>
-      <section>
-        <h2>Building Blocks</h2>
-        <p>The two core building blocks selected for the protocol are HTTP
-        ([[!RFC2616]]) and [[!ActivityStreams]]; the former for its ubiquity
-        and the latter for its obvious application, expressiveness and
-        simplicity.</p>
-        <p>Other building blocks were examined and discarded:</p>
-        <section>
-          <h2>PubSubHubub</h2>
-          <p>[[PUSH]] is a widely deployed protocol for the exchange of
-          notifications from a publisher to subscribers. Widely deployed,
-          [[PUSH]] can already be used to follow, in real time, the public
-          activity of millions of blogs.</p>
-          <p>However, [[PUSH]] was designed for a publishing and subscription
-          model in which all content is public, and while it is possible to
-          extend it to support non-public content, in doing so it becomes a very
-          different protocol. In addition, setting up [[PUSH]] subscriptions
-          becomes an additional "moving part" in the subscription machinery.</p>
-          <p>[[PUSH]] is not incompatible with ActivityPump in general, but by
-          the time the machinery to support private message delivery has been
-          added to the protocol, it becomes duplicative to additionally
-          implement [[PUSH]] for public message delivery; therefore, it is left
-          as an extension which implementations may implement at their leisure.</p>
-        </section>
-        <section>
-          <h2>Salmon</h2>
-          <p>[[Salmon]] is a protocol for delivering responses to a post to the
-          original post's author. It was developed for Google Buzz as a method
-          of conveying comments posted on that platform back to the blog from
-          which the post originated.</p>
-          <p>It was used in the same fashion by OStatus in order to support
-          replies in conversations; in this regard delivering them to recipients
-          which may not subscribe to the post's author.</p>
-          <p>While Salmon works for this purpose, it is itself highly complex.
-          In addition, it is built upon ATOM [[RFC4287]], while this
-          specification is built upon [[!JSON]], and it invents its own
-          authentication system  which is both orthogonal to that used by the
-          rest of the protocol and highly complex. Finally, ActivityPump's
-          general post delivery mechanism provides the same functionality while
-          adding no additional complexity.</p>
-      </section>
-    </section>
     <section id="Overview">
       <h2>Overview</h2>
       <p>The ActivityPump protocol is broadly based on the distribution of
