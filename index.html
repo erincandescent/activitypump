@@ -512,7 +512,30 @@
       <p>TODO: New URI? Can we get as:public in the schema or such?</p>
     </section>
   </section>
+  <section id="binary-data">
+    <h2>Binary Data</h2>
+    <p>There is the ability to submit binary data such as images, video or other
+       binary data you wish to use in activitypump. This is done by means of submitting
+       the binary data to the user's <code>file</code> endpoint. The request MUST contain
+       the HTTP headers <code>Content-Type</code> and <code>Content-Length</code>. Upon
+       successful submission a response containing the object with an ID is returned that
+       can be posted to the users outbox.</p>
 
+    <p>An example response for an image I might upload is</p>:
+    <pre class="example">
+      {
+        "@context": "",
+        "@id": "http://example.com/~erik/photos/1",
+        "@type": "Image",
+        "url": [
+          {
+            "@type": "Link",
+            "href": "http://example.com/~erik/photos/1.png",
+            "mediaType": "image/png"
+          }
+        ]
+      }
+    </pre>
   <section id="content-objects">
     <h2>Content Objects</h2>
     <p>There are objects which have a <code>content</code> property, the value of which
