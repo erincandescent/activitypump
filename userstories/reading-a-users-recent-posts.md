@@ -34,8 +34,10 @@ Authorization: Bearer xx-bearer-token-here-xx
         "@type": "Image",
         "@id": "https://example.se/~iris/photos/long-run-with-dog/",
         "url" [
-          "href": "http://example.se/~iris/media/tired_dog.png",
-          "mediaType": "image/png"
+          {
+            "href": "http://example.se/~iris/media/tired_dog.png",
+            "mediaType": "image/png"
+          }
         ]
       }
     }
@@ -123,8 +125,10 @@ Authorization: Bearer xx-bearer-token-here-xx
         "@type": "Image",
         "@id": "https://example.se/~iris/photos/long-run-with-dog/",
         "url" [
-          "href": "http://example.se/~iris/media/tired_dog.png",
-          "mediaType": "image/png"
+          {
+            "href": "http://example.se/~iris/media/tired_dog.png",
+            "mediaType": "image/png"
+          }
         ]
       }
     },
