@@ -9,6 +9,13 @@ From https://www.w3.org/wiki/Socialwg/Social_API/User_stories#Inbox
 > 5. Jake sees in his social stream a sound file from Carol. Carol is Jake's wife. The sound file is a reminder to stop for groceries after work. Carol posted the sound file only for Jake.
 > 6. Jake sees in his social stream that his friend Tammy has added a new friend, Denise. Jake remembers Denise from high school. Jake requests to add Denise as a friend, too.
 
+**NOTE:** Incomplete.  Much of this can be gleaned from the "Reading a
+  user's recent posts" and "Following a person" user stories though,
+  with the notable exception of groups and private addressing.  I
+  believe this should be fairly straightforward though, since this is
+  just changing who the addressing points to (including pointing to
+  groups which are collections of recipients).
+
 ## 1. Checking your inbox
 
 ## 2. Reading posts shared between friends
