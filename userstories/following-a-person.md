@@ -224,4 +224,62 @@ Authorization: Bearer xx-bearer-token-here-xx
 
 ## 5: Friends finding and following friends
 
+Ted looks at his sad and fairly quiet timeline and thinks he should
+follow someone interesting.  He sees that Delano has recently
+favorited and shared with his followers several posts that Beth has
+made.  He clicks on Beth's name in his client's interface and selects
+"Subscribe".  Behind the scenes, the same process that happened with
+Delano subscribing to Beth happens again, but instead with Ted
+subscribing to Beth.
+
+(I believe the above example is self explanatory enough to not repeat
+those requests.)
+
+
 ## 6: Unfollowing someone
+
+Delano is in the middle of an urgent project and needs to pay close
+attention to messages from his immediate team-mates, but he is feeling
+overwhelmed with Beth's frequent posting, which is making it hard for
+him to sort through his inbox.  He decides to unsubscribe, at least
+for now.  He clicks on Beth's username and selects "Unsubscribe".
+
+His client submits an activity with an "Unfollow" activity to his
+outbox:
+
+```
+POST /api/user/delano_sota/feed HTTP/1.1
+Host: acmegamecorp.example
+Content-Type: application/activitystreams+json
+Authorization: Bearer xx-bearer-token-here-xx
+
+{
+  "@context": "http://www.w3.org/ns/activitystreams",
+  "@type": "Unfollow",
+  "actor": {
+    "@type": "Person",
+    "@id": "https://acmegamecorp.example/people/delano_sota/",
+    "displayName": "Delano Sota",
+  },
+  "object": {
+    "@type": "Person",
+    "@id": "https://acmegamecorp.example/people/beth_m_bost/"
+  },
+  "to": [{
+      "@type": "Person",
+      "@id": "https://acmegamecorp.example/people/beth_m_bost/"
+  }],
+  "cc": [{
+    "@context": "http://www.w3.org/ns/activitystreams",
+    "@id": "http://activityschema.org/collection/public",
+    "@type": "Collection"
+  }]
+}
+```
+
+Delano's server sends the above activity to Beth's inbox as well as
+the inboxes of his general followers.  Delano's server removes Beth
+from his "following" collection and Beth's server removes Delano from
+Beth's "followers" collection.  In the future, Beth's server will not
+send activities to Delano which are addressed to her general
+followers.
