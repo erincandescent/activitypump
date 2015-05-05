@@ -130,6 +130,98 @@ message to all of Delano's followers.
 
 ## 3, 4: Seeing that new person's content
 
+Beth has settled back from the company retreat and decides to post a
+picture from a whiteboarding session she participated in.  Her client submits
+to the file endpoint for her user
+(note: where the file endpoint is defined still
+[needs to be clarified](https://github.com/w3c-social/activitypump/issues/23))
+and gets back a response object with the object.  The client then
+makes a second post containing addressing of who the file should be
+sent to.
+
+```
+POST /api/user/beth_m_bost/feed HTTP/1.1
+Host: acmegamecorp.example
+Content-Type: application/activitystreams+json
+Authorization: Bearer xx-bearer-token-here-xx
+
+{
+  "@context": [
+    "http://www.w3.org/ns/activitystreams",
+    "http://www.w3.org/ns/activitypump"
+  ],
+  "@type": "Post",
+  "actor": {
+    "@type": "Person",
+    "@id": "https://acmegamecorp.example/people/beth_m_bost/",
+    "displayName": "Beth M. Bost"
+  },
+  "object": {
+    "@id": "https://acmegamecorp.example/people/beth_m_bost/images/5150",
+    "@type": "Image",
+    "url": [{
+        "@type": "Link",
+        "href": "http://acmegamecorp.example/media/beth_m_bost/images/whiteboard_20150503.png",
+        "mediaType": "image/png"
+    }]
+  },
+  "to": [{
+    "@context": "http://www.w3.org/ns/activitystreams",
+    "@id": "http://activityschema.org/collection/public",
+    "@type": "Collection"
+  }]
+}
+```
+
+When Delano next looks at his inbox, he sees this object, amongst
+others:
+
+```
+GET /api/user/delano_sota/inbox HTTP/1.1
+Host: acmegamecorp.example
+Content-Type: application/activitystreams+json
+Authorization: Bearer xx-bearer-token-here-xx
+
+{
+  "@context": [
+    "http://www.w3.org/ns/activitystreams",
+    "http://www.w3.org/ns/activitypump"
+  ],
+  "@id": "https://acmegamecorp.example/api/user/delano_sota/inbox",
+  "@type": "Collection",
+  "itemsType": ["activity"]
+  "items": [
+    {
+      "@context": [
+        "http://www.w3.org/ns/activitystreams",
+        "http://www.w3.org/ns/activitypump"
+      ],
+      "@type": "Post",
+      "actor": {
+        "@type": "Person",
+        "@id": "https://acmegamecorp.example/people/beth_m_bost/",
+        "displayName": "Beth M. Bost"
+      },
+      "object": {
+        "@id": "https://acmegamecorp.example/people/beth_m_bost/images/5150",
+        "@type": "Image",
+        "url": [{
+            "@type": "Link",
+            "href": "http://acmegamecorp.example/media/beth_m_bost/images/whiteboard_20150503.png",
+            "mediaType": "image/png"
+        }]
+      },
+      "to": [{
+        "@context": "http://www.w3.org/ns/activitystreams",
+        "@id": "http://activityschema.org/collection/public",
+        "@type": "Collection"
+      }]
+    }
+    /* More objects here */
+  ]
+}
+```
+
 ## 5: Friends finding and following friends
 
 ## 6: Unfollowing someone
