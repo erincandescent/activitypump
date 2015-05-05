@@ -11,6 +11,123 @@ From https://www.w3.org/wiki/Socialwg/Social_API/User_stories#Following_a_person
 
 ## 1, 2: Meeting and following a new person
 
+At the Acme Game Corp company all-hands, Delano and Beth discover they
+have a shared interest in user interface history and both have a soft
+spot for retro toolkits like Motif.  It's not every day you meet
+someone else to chat about vintage GUI elements, so Delano asks if
+they can chat further.  Beth hands Delano her business card and
+suggests maybe they could collaborate on an upcoming project.
+
+Delano sees that her name is "Beth Marie Bost" and enters her name
+into the company people-finder.  He ends up at the following URL, her
+internal profile:
+
+  https://acmegamecorp.example/people/beth_m_bost/
+
+That's her all right!  He decides to subscribe to her using his
+desktop client.  He hits the "subscribe" button and pastes her profile
+URL into the textbox.
+
+Delano's client submits a post to its outbox declaring that Delano
+would like to subscribe to Beth.  Beth is included as a recipient in
+the "to" field so that her server can know to begin delivery of
+messages to Delano, and the special
+[public collection](http://w3c-social.github.io/activitypump/#public-addressing)
+is added as a Cc: so that others might know about that subscription.
+
+
+```
+POST /api/user/delano_sota/feed HTTP/1.1
+Host: acmegamecorp.example
+Content-Type: application/activitystreams+json
+Authorization: Bearer xx-bearer-token-here-xx
+
+{
+  "@context": "http://www.w3.org/ns/activitystreams",
+  "@type": "Follow",
+  "actor": {
+    "@type": "Person",
+    "@id": "https://acmegamecorp.example/people/delano_sota/",
+    "displayName": "Delano Sota",
+  },
+  "object": {
+    "@type": "Person",
+    "@id": "https://acmegamecorp.example/people/beth_m_bost/"
+  },
+  "to": [{
+      "@type": "Person",
+      "@id": "https://acmegamecorp.example/people/beth_m_bost/"
+  }],
+  "cc": [{
+    "@context": "http://www.w3.org/ns/activitystreams",
+    "@id": "http://activityschema.org/collection/public",
+    "@type": "Collection"
+  }]
+}
+```
+
+Behind the scenes, Delano's server fetches Beth's profile URL and sees
+a Json-LD encoded ActivityStreams representation of a Person on the
+page:
+
+```
+GET /people/beth_m_bost/
+Host: acmegamecorp.example
+Content-Type: text/html
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="application/ld+json">
+      {
+        "@context": [
+          "http://www.w3.org/ns/activitystreams",
+          "http://www.w3.org/ns/activitypump"
+        ],
+        "@type": "Person",
+        "@id": "https://acmegamecorp.example/people/beth_m_bost/",
+        "following": "https://acmegamecorp.example/api/user/beth_m_bost/following",
+        "followers": "https://acmegamecorp.example/api/user/beth_m_bost/followers",
+        "inbox": "https://acmegamecorp.example/api/user/beth_m_bost/inbox",
+        "outbox": "https://acmegamecorp.example/api/user/beth_m_bost/outbox",
+        "preferredUsername": "beth_m_bost",
+        "displayName": "Beth M. Bost",
+        "summary": "AcmeGameCorp UI designer.  Fan of embossed widgets and 1990s video game menus.",
+        "icon": [
+          "https://acmegamecorp.example/media/profile_pics/beth_m_bost.png"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Content goes here! -->
+  </body>
+</html>
+```
+
+The server takes note of Beth's "inbox"; it needs this information so
+that it can send this activity to Beth.  Now that it has it, it posts
+the same activity that Delano posted to his outbox to Beth's inbox.
+
+```
+POST /api/user/beth_m_bost/inbox HTTP/1.1
+Host: acmegamecorp.example
+Content-Type: application/activitystreams+json
+Authorization: Bearer xx-bearer-token-here-xx
+
+/* [SAME DOCUMENT AS POSTED TO ACTOR'S INBOX ENDPOINT]
+   [... YES I KNOW JSON DOESN'T HAVE COMMENTS WHAT'S UP WITH THAT] */
+```
+
+Beth's server recognizes that Delano is subscribing to Beth and
+records that information so that future activities addressed generally
+to Beth's followers will reach Delano.  Beth will also get a
+notification in her inbox seeing that Delano has subscribed to her,
+which she can use to follow back.
+
+Since this is a public post, Delano's server will also send this
+message to all of Delano's followers.
+
 ## 3, 4: Seeing that new person's content
 
 ## 5: Friends finding and following friends
