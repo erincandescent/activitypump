@@ -26,19 +26,23 @@ Authorization: Bearer xx-bearer-token-here-xx
   "items": [
     {
       "@context": "http://www.w3.org/ns/activitystreams",
-      "@id": "https://samsplace.example/samsthoughts/note/41",
-      "@type": "Note",
       "actor": "http://samsplace.example/sam/",
-      "content": "That dog is as tired as a dog!",
-      "inReplyTo": {
-        "@type": "Image",
-        "@id": "https://example.se/~iris/photos/long-run-with-dog/",
-        "url" [
-          {
-            "href": "http://example.se/~iris/media/tired_dog.png",
-            "mediaType": "image/png"
-          }
-        ]
+      "verb": "Post",      
+      "object": {
+        "@id": "https://samsplace.example/samsthoughts/note/41",
+        "@type": "Note",
+        "actor": "http://samsplace.example/sam/",
+        "content": "That dog is as tired as a dog!",
+        "inReplyTo": {
+          "@type": "Image",
+          "@id": "https://example.se/~iris/photos/long-run-with-dog/",
+          "url" [
+            {
+              "href": "http://example.se/~iris/media/tired_dog.png",
+              "mediaType": "image/png"
+            }
+          ]
+        }
       }
     }
   ]
@@ -117,27 +121,35 @@ Authorization: Bearer xx-bearer-token-here-xx
   "items": [
     {
       "@context": "http://www.w3.org/ns/activitystreams",
-      "@id": "https://samsplace.example/samsthoughts/note/41",
-      "@type": "Note",
       "actor": "http://samsplace.example/sam/",
-      "content": "That dog is as tired as a dog!",
-      "inReplyTo": {
-        "@type": "Image",
-        "@id": "https://example.se/~iris/photos/long-run-with-dog/",
-        "url" [
-          {
-            "href": "http://example.se/~iris/media/tired_dog.png",
-            "mediaType": "image/png"
-          }
-        ]
+      "verb": "Post",      
+      "object": {
+        "@id": "https://samsplace.example/samsthoughts/note/41",
+        "@type": "Note",
+        "actor": "http://samsplace.example/sam/",
+        "content": "That dog is as tired as a dog!",
+        "inReplyTo": {
+          "@type": "Image",
+          "@id": "https://example.se/~iris/photos/long-run-with-dog/",
+          "url" [
+            {
+              "href": "http://example.se/~iris/media/tired_dog.png",
+              "mediaType": "image/png"
+            }
+          ]
+        }
       }
     },
     {
       "@context": "http://www.w3.org/ns/activitystreams",
-      "@id": "https://samsplace.example/samsthoughts/note/40",
-      "@type": "Note",
       "actor": "http://samsplace.example/sam/",
-      "content": "Why'd the chicken cross the road?  To get away from the wolf!",
+      "verb": "Post",      
+      "object": {
+        "@type": "Note",
+        "@id": "https://samsplace.example/samsthoughts/note/40",
+        "actor": "http://samsplace.example/sam/",
+        "content": "Why'd the chicken cross the road?  To get away from the wolf!",
+      }
     }
   ]
 }
