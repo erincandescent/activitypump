@@ -397,7 +397,9 @@
         <p>The <code>outbox</code> stream contains every object that the user
         has ever published, subject to the ability of the requestor to retrieve
         the object (That is, the contents of the outbox are filtered by the
-        permissions of the person reading it)</p>
+        permissions of the person reading it). If a user submits a request
+        without <a href="authorization">Authorization</a> the server should
+        respond with all of the <a href="public-addressing">Public</a> posts.</p>
 
         <p>A client may submit an [[!ActivityStreams]] activity to the server
         using a HTTP POST request to the dereferencable URI of the outbox collection.
