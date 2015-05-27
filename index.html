@@ -230,14 +230,6 @@
         object. If successful, all requests to the URI which would have
         previously been successful SHOULD return the 410 Gone response code.</p>
       </section>
-      <section id="method-notify">
-        <h2>The <code>NOTIFY</code> method</h2>
-        <p><b>This method is only applicable to federated implementations</b></p>
-        <p><b>This method requires <a href="#authorization-origin">origin authorization</a></b></p>
-        <p>The <code>NOTIFY</code> method is used in cross-server communication in
-        order to perform accurate cross server notification and delivery as
-        documented in <a href="#notification">.</a></p>
-      </section>
     </section>
   </section>
 
@@ -485,10 +477,6 @@
         <li>The Objects specified by the activity's "object" and "target" properties</li>
         <li>Any Objects specified in the activity object's "inReplyTo" property</li>
       </ul>
-      <p>Servers may perform notification to local objects as they choose.
-      Federated servers MUST notify remote objects using the
-      <a href="#method-notify">NOTIFY</a> method except by agreement with the
-      3rd party server.</p>
       <p>An object notified of an activity MUST <a href="#delivery">deliver</a>
       that activity to all <a href="#object-recipient">recipients of the object</a>
       and in addition notify all <a href="#activity-share">share activities</a>
