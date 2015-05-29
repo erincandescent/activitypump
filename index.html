@@ -230,14 +230,6 @@
         object. If successful, all requests to the URI which would have
         previously been successful SHOULD return the 410 Gone response code.</p>
       </section>
-      <section id="method-notify">
-        <h2>The <code>NOTIFY</code> method</h2>
-        <p><b>This method is only applicable to federated implementations</b></p>
-        <p><b>This method requires <a href="#authorization-origin">origin authorization</a></b></p>
-        <p>The <code>NOTIFY</code> method is used in cross-server communication in
-        order to perform accurate cross server notification and delivery as
-        documented in <a href="#notification">.</a></p>
-      </section>
     </section>
   </section>
 
@@ -347,6 +339,32 @@
     </section>
   </section>
 
+  <section id="endpoint-discovery">
+    <h2>Endpoint Discovery</h2>
+    <p>When a user dereferences an actor's ID the page MUST contain HTML script
+    element with the <code>type</code> attribute set to
+    <code>application/ld+json</code>.</p>
+    <pre class="example">
+      &lt;script type="application/ld+json"&gt;
+        {
+          "@context": [
+            "http://www.w3.org/ns/activitystreams",
+            "http://www.w3.org/ns/activitypump"
+          ],
+          "@id": "https://example.com/~alice/my-stream",
+          "@type": "Person",
+          "displayName": "Alice",
+          "summary": "Hai, I'm Alice!",
+          "inbox": "https://example.com/~alice/inbox",
+          "outbox": "https://example.com/~alice/feed",
+          "followers": "https://example.com/~alice/collections/followers",
+          "following": "https://example.com/~alice/collections/following"
+        }
+      &lt;/script&gt;
+    </pre>
+
+  </section>
+
   <section id="collections">
     <h2>Collections and Streams</h2>
     <p>[[!ActivityStreams]] defines the collection concept; ActivityPump defines several
@@ -397,7 +415,9 @@
         <p>The <code>outbox</code> stream contains every object that the user
         has ever published, subject to the ability of the requestor to retrieve
         the object (That is, the contents of the outbox are filtered by the
-        permissions of the person reading it)</p>
+        permissions of the person reading it). If a user submits a request
+        without <a href="authorization">Authorization</a> the server should
+        respond with all of the <a href="public-addressing">Public</a> posts.</p>
 
         <p>A client may submit an [[!ActivityStreams]] activity to the server
         using a HTTP POST request to the dereferencable URI of the outbox collection.
@@ -483,10 +503,6 @@
         <li>The Objects specified by the activity's "object" and "target" properties</li>
         <li>Any Objects specified in the activity object's "inReplyTo" property</li>
       </ul>
-      <p>Servers may perform notification to local objects as they choose.
-      Federated servers MUST notify remote objects using the
-      <a href="#method-notify">NOTIFY</a> method except by agreement with the
-      3rd party server.</p>
       <p>An object notified of an activity MUST <a href="#delivery">deliver</a>
       that activity to all <a href="#object-recipient">recipients of the object</a>
       and in addition notify all <a href="#activity-share">share activities</a>
