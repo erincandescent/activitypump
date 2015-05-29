@@ -186,15 +186,15 @@
         always be honored as specified in <a href="#method-delete"></a></li>
         <li>All non-idempotent operations shall have a request body.</li>
         <li>For all operations with a request body, it MUST have the media type
-        <code>application/activitystreams+json</code>, or where explicitly
+        <code>application/activity+json</code>, or where explicitly
         permitted the <code>multipart/related</code> media type with a root part
-        of type <code>application/activitystreams+json</code></li>
+        of type <code>application/activity+json</code></li>
         <li>Servers MAY use HTTP content notification as defined in [[!RFC7231]]
         to select the type of data to return in response to a request. For
         requests without a body, an <code>Accept</code> header MUST be
         specified, and the behavior defined by this specification ONLY applies
         if content negotion results in the selection of the
-        <code>application/activitystreams+json</code> media type. For requests
+        <code>application/activity+json</code> media type. For requests
         with a body, the client MAY omit the <code>Accept</code> header, in
         which case the server MUST provide successful responses as defined by this
         specification</li>
@@ -422,7 +422,7 @@
         <p>A client may submit an [[!ActivityStreams]] activity to the server
         using a HTTP POST request to the dereferencable URI of the outbox collection.
         In this case, the request's Content-Type MUST
-        be <code>application/activitystreams+json</code>, and the request MUST be authenticated
+        be <code>application/activity+json</code>, and the request MUST be authenticated
         with credentials authorized to act on behalf of the user to whom the
         outbox belongs. Such submitted activities will be added to the front of
         the feed retrieved by GET requests to the same endpoint.</p>
