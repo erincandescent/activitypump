@@ -189,7 +189,7 @@
         <code>application/activity+json</code>, or where explicitly
         permitted the <code>multipart/related</code> media type with a root part
         of type <code>application/activity+json</code></li>
-        <li>Servers MAY use HTTP content notification as defined in [[!RFC7231]]
+        <li>Servers MAY use HTTP content negotiation as defined in [[!RFC7231]]
         to select the type of data to return in response to a request. For
         requests without a body, an <code>Accept</code> header MUST be
         specified, and the behavior defined by this specification ONLY applies
@@ -478,7 +478,7 @@
         authorization as the submitting user, of the submitted activity body to
         the URI of the <a href="#inbox">inbox</a> collection of each recipient
       </ol>
-      <p>For federated servers performing delivery to a 3rd partry server,
+      <p>For federated servers performing delivery to a 3rd party server,
       delivery SHOULD be performed asynchronously to completion of
       the original activity submission request, and SHOULD additionally retry
       delivery to recipients if it fails due to network error</p>
@@ -576,8 +576,8 @@
         }
       </pre>
       <p><b>This is only applicable to federated implementations:</b> When a response
-      is sent to the outbox of a user, it should be propegated to the original server
-      thateauthored the object that the response is in reply to. That server should then
+      is sent to the outbox of a user, it should be propagated to the original server
+      that authored the object that the response is in reply to. That server should then
       send that response to all recipiants that the original object was sent to.</p>
     </section>
   </section>
