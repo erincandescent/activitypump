@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ActivityPump</title>
+    <meta charset='utf-8'>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
+            async class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+          specStatus: "unofficial",
+          shortName:  "activitypump",
+      };
+    </script>
+  </head>
+  <body>
+    <h1>ActivityPump<h1>
+    <section id="implementation">
+      <h2>Implementation overview</h2>
+      <ol>
+        <li>Post to outbox, expose outbox (client to server, "Social API")</li>
+        <li>Discover inboxes of and post to anyone explicitly targeted (server to server, "Federation API")</li>
+        <li>Have a discoverable inbox that people can post to <span class="issue">What's the AP/pump approach to spam? (server to server, "Federation API")</span></li>
+        <li>Side effects: update data on the server in response to certain activities (posted to your outbox by you or inbox by others).</li>
+        <li>Access control: allow authentication (by clients and/or servers?) to retrieve certain posts</li>
+      </ol>
+      <h3>Note: Comparison with indieweb</h3>
+      <ol>
+        <li>Micropub endpoint + h-feed</li>
+        <li>Discover webmention endpoint and send webmentions</li>
+        <li>Have a discoverable webmention endpoint that people can post webmentions to</li>
+        <li><em>Side effects: no spec'd indieweb equivalent</em></li>
+        <li>Access control: allow people to sign into your site with RelMeAuth</li>
+      </ol>
+    </section>
+
+    <section id="breakdown">
+      <h2>Implementation breakdown</h2>
+      <section id="outbox">
+        <h3>Outbox</h3>
+        <ol>
+          <li>Your outbox endpoint is discoverable from your homepage or profile.</li>
+          <li>Your outbox endpoint receives authenticated HTTP POST requests containing an ActivityStreams activity <span class="issue">(or content-object?)</span> with Content-Type of <code>application/activity+json</code>.</li>
+          <li>If other objects are mentioned (eg. in <code>object</code>, <code>target</code> or <code>inReplyTo</code>) the new activity <span class="issue">(or content-object?)</span> is posted to the mentioned object(s)'s actor's inbox endpoint <span class="issue">(or to the mentioned object directly?)</span></li>
+          <li>Your outbox endpoint responds to HTTP GET requests with all activities as JSON in reverse-chronological order.</li>
+          <li>GET requests to individual object URIs should return the object properties as JSON.</li>
+        </ol>
+      </section>
+      
+      <section id="discover-inboxes">
+        <h3>Discover and post to inboxes</h3>
+        <ol>
+          <li>When your outbox receives an activity <span class="issue">(or content-object?)</span> with an audience specified in <code>to</code> or <code>cc</code> properties, your server dereferences these URLs (continuing until URIs for users (Actors) are found in the case of groups/collections) and discovers their inbox endpoints.</li>
+          <li>Your server posts the (single) activity <span class="issue">(or content-object?)</span> to all discovered inbox endpoints, with your authentication, and with Content-Type <code>application/activity+json</code>.</li>
+        </ol>
+      </section>
+
+      <section id="inbox">
+        <h3>Inbox for receiving</h3>
+        <ol>
+          <li>Your inbox endpoint is discoverable from your homepage or profile.</li>
+          <li>Your inbox endpoint receives HTTP POST requests containing an ActivityStreams activity <span class="issue">(or content-object?)</span>.</li>
+          <li>Your server checks to see if it has received this object before and it hasn't changed, and discards if so.</li>
+          <li>Your server checks the authentication matches the <code>actor</code> of the activity, and discards if not.</li>
+          <li>If a received object mentions one of your objects (eg. in <code>object</code>, <code>target</code> or <code>inReplyTo</code>), your server posts the new object to all recipients of your original object.</li>
+          <li>Your inbox endpoint responds to authenticated HTTP GET requests with all activities as JSON in reverse-chronological order (usually authentication would mean only the inbox owner can see the contents).</li>
+        </ol>
+      </section>
+
+      <section id="side-effects">
+        <h3>Side effects</h3>
+        <ol>
+          <li>When your outbox endpoint receives a <code>Create</code> activity, an object is created.</li>
+          <li>When your outbox endpoint receives an <code>Update</code> activity, an existing object is updated.</li>
+          <li>When your outbox endpoint receives a <code>Delete</code> activity, an existing object is replaced with a tombstone, and requests to the object URI return a 410.</li>
+          <li>When your outbox endpoint receives a <code>Follow</code> activity, your server adds the object user to your 'follows' collection.</li>
+          <li>When your inbox endpoint receives a <code>Follow</code> activity with you as the object, your server adds the actor to your 'followers' collection (as such, they'll receive anything you post to your followers).</li>
+          <li>When your outbox endpoint receives a <code>Like</code> activity, your server adds the object to a collection of things you've liked.</li>
+          <li>When your inbox endpoint receives a <code>Like</code> activity, your server adds the actor to a collection of actors who have liked the object.</li>
+          <li>When your outbox endpoint receives a <code>Add</code> activity, your server adds the object to the collection in the <code>target</code>.</li>
+          <li>When your outbox endpoint receives a <code>Block</code> activity, your server ignores any activities from the object user.</li>
+          <li>When your outbox or inbox endpoint receives an <code>Undo</code> activity, your server reverses any side-effects caused by the object activity.</li>
+        </ol>
+      </section>
+      
+      <section id="access-control">
+        <h3>Access control</h3>
+        <ol>
+          <li>When an authenticated GET request is made to your outbox, the results are filtered according to the authenticated user's permissions.</li>
+        </ol>
+      </section>
+
+    </section>
+    
+    <section id="todo">
+      <h2>Todo...</h2>
+      <ul>
+        <li>Binary data / file endpoint</li>
+        <li>Public addressing / special collections</li>
+      </ul>
+    </section>
+  </body>
+</html>
