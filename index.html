@@ -186,15 +186,15 @@
         always be honored as specified in <a href="#method-delete"></a></li>
         <li>All non-idempotent operations shall have a request body.</li>
         <li>For all operations with a request body, it MUST have the media type
-        <code>application/activitystreams+json</code>, or where explicitly
+        <code>application/activity+json</code>, or where explicitly
         permitted the <code>multipart/related</code> media type with a root part
-        of type <code>application/activitystreams+json</code></li>
-        <li>Servers MAY use HTTP content notification as defined in [[!RFC7231]]
+        of type <code>application/activity+json</code></li>
+        <li>Servers MAY use HTTP content negotiation as defined in [[!RFC7231]]
         to select the type of data to return in response to a request. For
         requests without a body, an <code>Accept</code> header MUST be
         specified, and the behavior defined by this specification ONLY applies
         if content negotion results in the selection of the
-        <code>application/activitystreams+json</code> media type. For requests
+        <code>application/activity+json</code> media type. For requests
         with a body, the client MAY omit the <code>Accept</code> header, in
         which case the server MUST provide successful responses as defined by this
         specification</li>
@@ -219,7 +219,7 @@
         <p><b>This method requires <a href="#authorization-user">user authorization</a></b></p>
         <p>The PUT method may be used by a client to update the version of the
         object stored on the server.</p>
-        <p>The server MUST insert an activity with the <code>update</code> verb
+        <p>The server MUST insert an activity with the <code>@type</code> <code>Update</code>
         and this object as its <code>object</code> into the actor's
         <a href="#outbox">feed</a>.</p>
       </section>
@@ -422,7 +422,7 @@
         <p>A client may submit an [[!ActivityStreams]] activity to the server
         using a HTTP POST request to the dereferencable URI of the outbox collection.
         In this case, the request's Content-Type MUST
-        be <code>application/activitystreams+json</code>, and the request MUST be authenticated
+        be <code>application/activity+json</code>, and the request MUST be authenticated
         with credentials authorized to act on behalf of the user to whom the
         outbox belongs. Such submitted activities will be added to the front of
         the feed retrieved by GET requests to the same endpoint.</p>
@@ -432,7 +432,7 @@
         <h2>Inbox</h2>
 
         <p>The <code>inbox</code> stream contains all objects received by the user.
-        The inbox MUST be filtered acording to the requestor's permission; this
+        The inbox MUST be filtered according to the requester's permission; this
         MAY include allowing read access only to the owning user</p>
 
         <p>A server may submit a HTTP POST to the <a href="#obj-dereference">
@@ -478,7 +478,7 @@
         authorization as the submitting user, of the submitted activity body to
         the URI of the <a href="#inbox">inbox</a> collection of each recipient
       </ol>
-      <p>For federated servers performing delivery to a 3rd partry server,
+      <p>For federated servers performing delivery to a 3rd party server,
       delivery SHOULD be performed asynchronously to completion of
       the original activity submission request, and SHOULD additionally retry
       delivery to recipients if it fails due to network error</p>
@@ -576,8 +576,8 @@
         }
       </pre>
       <p><b>This is only applicable to federated implementations:</b> When a response
-      is sent to the outbox of a user, it should be propegated to the original server
-      thateauthored the object that the response is in reply to. That server should then
+      is sent to the outbox of a user, it should be propagated to the original server
+      that authored the object that the response is in reply to. That server should then
       send that response to all recipiants that the original object was sent to.</p>
     </section>
   </section>
@@ -590,8 +590,8 @@
     places no restrictions on the activities which may be distributed; however,
     it defines certain activities with special behaviors</p>
     <section id="post-activity">
-      <h3>Post Activity</h3>
-      <p>The <code>Post</code> activity is used to when posting a new object. This has the
+      <h3>Create Activity</h3>
+      <p>The <code>Create</code> activity is used to when posting a new object. This has the
 	side effect that of the object that they are posting is being created.</p>
     </section>
     <section id="update-activity">
