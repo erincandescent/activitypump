@@ -57,14 +57,15 @@ Implementation breakdown
 1.  Your inbox endpoint is discoverable from your homepage or profile.
 2.  Your inbox endpoint receives HTTP POST requests containing an
     ActivityStreams activity (or content-object?).
-3.  Your server checks to see if it has received this object before and
+3.  Your server dereferences the object URI and checks if the object is valid.
+4.  Your server checks to see if it has received this object before and
     it hasn't changed, and discards if so.
-4.  Your server checks the authentication matches the `actor` of the
+5.  Your server checks the authentication matches the `actor` of the
     activity, and discards if not.
-5.  If a received object mentions one of your objects (eg. in `object`,
+6.  If a received object mentions one of your objects (eg. in `object`,
     `target` or `inReplyTo`), your server posts the new object to all
     recipients of your original object.
-6.  Your inbox endpoint responds to authenticated HTTP GET requests with
+7.  Your inbox endpoint responds to authenticated HTTP GET requests with
     all activities as JSON in reverse-chronological order (usually
     authentication would mean only the inbox owner can see the
     contents).
