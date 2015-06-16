@@ -19,14 +19,14 @@ Implementation overview
 1.  Micropub endpoint + h-feed
 2.  Discover webmention endpoint and send webmentions
 3.  Have a discoverable webmention endpoint that people can post
-    webmentions to
-4.  *Side effects: no spec'd indieweb equivalent*
-5.  Access control: allow people to sign into your site with RelMeAuth
+    webmentions to (for spam see [vouch](http://indiewebcamp.com/vouch)
+4.  Side effects: *no spec'd indieweb equivalent*
+5.  Access control: allow people to sign into your site with RelMeAuth. Access control for clients/servers discussed but not spec'd.
 
 Implementation breakdown
 ------------------------
 
-### Outbox
+### 1. Outbox
 
 1.  Your outbox endpoint is discoverable from your homepage or profile.
 2.  Your outbox endpoint receives authenticated HTTP POST requests
@@ -41,7 +41,7 @@ Implementation breakdown
 5.  GET requests to individual object URIs should return the object
     properties as JSON.
 
-### Discover and post to inboxes
+### 2. Discover and post to inboxes
 
 1.  When your outbox receives an activity (or content-object?) with an
     audience specified in `cc` or `bcc` properties, your server
@@ -52,7 +52,7 @@ Implementation breakdown
     discovered inbox endpoints, with your authentication, and with
     Content-Type `application/activity+json`.
 
-### Inbox for receiving
+### 3. Inbox for receiving
 
 1.  Your inbox endpoint is discoverable from your homepage or profile.
 2.  Your inbox endpoint receives HTTP POST requests containing an
@@ -70,7 +70,7 @@ Implementation breakdown
     authentication would mean only the inbox owner can see the
     contents).
 
-### Side effects
+### 4. Side effects
 
 1.  When your outbox endpoint receives a `Create` activity, an object is
     created.
@@ -96,7 +96,7 @@ Implementation breakdown
 10. When your outbox or inbox endpoint receives an `Undo` activity, your
     server reverses any side-effects caused by the object activity.
 
-### Access control
+### 5. Access control
 
 1.  When an authenticated GET request is made to your outbox, the
     results are filtered according to the authenticated user's
