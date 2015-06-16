@@ -44,7 +44,7 @@ Implementation breakdown
 ### Discover and post to inboxes
 
 1.  When your outbox receives an activity (or content-object?) with an
-    audience specified in `to` or `cc` properties, your server
+    audience specified in `cc` or `bcc` properties, your server
     dereferences these URLs (continuing until URIs for users (Actors)
     are found in the case of groups/collections) and discovers their
     inbox endpoints.
