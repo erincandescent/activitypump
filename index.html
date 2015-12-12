@@ -630,21 +630,10 @@
 	Once the user has followed a user, activities shared with the Follows of that user
 	SHOULD be added to the actors's inbox.</p>
     </section>
-    <section id="unfollow-activity">
-      <h3>Unfollow Activity</h3>
-      <p>The <code>Unfollow</code> activity is used to unsubscribe to the activities of actor.
-	Once the user has unfollowed a user, the new activities posted to the Followers collection
-	of that user SHOULD not be added to the actors's inbox.</p>
-    </section>
     <section id="favorite-like-activity">
       <h3>Favorite or Like Activity</h3>
       <p>The <code>Favorite</code> and <code>Like</code> activities are synonyms. These are used to add
 	the actor to list of users who have liked or favorited the object.</p>
-    </section>
-    <section id="unfavorite-unlike-activity">
-      <h3>Unfavorite or Unlike Activity</h3>
-      <p>The <code>Unfavorite</code> and <code>Unlike</code> activity are synonyms. These are used to
-	remove the actor from the list of users who have liked or favorited the object.</p>
     </section>
     <section id="add-activity">
       <h3>Add Activity</h3>
@@ -661,6 +650,20 @@
       <p>The <code>Block</code> activity is used to indicate that the actor does not want a user (defined in
 	the <code>object</code> property) to be able to interact with objects posted by the user. The
 	server SHOULD prevent the user from interacting with any object posted by the actor.</p>
+    </section>
+    <section id="undo-activity">
+      <h3>Undo Activity</h3>
+      <p>
+        The <code>Undo</code> activity is used to undo a previous activity.
+        For example, <code>Undo</code> may be used to undo a previous <code>Like</code> or <code>Follow</code>.
+        The undo activity and the activity being undone MUST both have the same author.
+        Side effects (such as adding activities to a user's inbox after a <code>Follow</code>) should be undone, to the extent possible.
+      </p>
+
+      <p>
+        There are some exceptions where a different type of "inverse action" would be preferred.
+        <code>Create</code> based activities should instead use <code>Delete</code>, and <code>Add</code> activities should use <code>Remove</code>.
+      </p>
     </section>
   </section>
   </body>
