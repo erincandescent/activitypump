@@ -56,18 +56,18 @@
       <h2>Overview</h2>
       <p>The ActivityPump protocol is broadly based on the distribution of
       <i>activities</i>, described using [[!ActivityStreams]]; these activities
-      are produced in response to a user performing an action. Most activities
+      are produced in response to a user performing an activity. Most activities
       are purely responsive in nature - they are produced as a response to a
-      user <i>having</i> done something. In addition, certain actions posted
+      user <i>having</i> done something. In addition, certain activities posted
       by a user to their <a href="#outbox">outbox</a> may trigger certain
-      operations on the user's behalf. Finally, actions may have side effects
+      operations on the user's behalf. Finally, activities may have side effects
       as they propogate throughout the social graph. As an example of this:</p>
       <ol>
         <li>A user posts the <code>like</code> activity to their outbox. This
-        activity causes the user's server to perform an action on behalf of
+        activity causes the user's server to perform an activity on behalf of
         the user; in particular, it adds the specified object to the collection
         of objects the user has liked.</li>
-        <li>A consequence of the above action (per
+        <li>A consequence of the above activity (per
         <a href="#notification"></a>) is that the server hosting
         the liked object will be notified of the operation, and will normally
         add the activity to the list of "likes" the object has received.</li>
@@ -661,7 +661,7 @@
       </p>
 
       <p>
-        There are some exceptions where a different type of "inverse action" would be preferred.
+        There are some exceptions where a different type of "inverse activity" would be preferred.
         <code>Create</code> based activities should instead use <code>Delete</code>, and <code>Add</code> activities should use <code>Remove</code>.
       </p>
     </section>
