@@ -120,9 +120,11 @@
     objects which do not fit into the previous categories such as
     <a href="#groups">groups</a>.</p>
     <p>
-      Servers MUST validate the content they receive to avoid content spoofing attacks.
-      In particular, servers MUST NOT trust client submitted content, and federated servers also MUST NOT trust content received from a server other than the content's origin.
-      Servers MUST validate such against its originating server.
+      Servers SHOULD validate the content they receive to avoid content spoofing attacks.
+      In particular, servers SHOULD NOT trust client submitted content, and federated servers also SHOULD NOT trust content received from a server other than the content's origin.
+      The general mecahism that is specified for this at this time is for a recipient of some referenced activitystreams object to verify the presence of that object on the original server.
+      Other mechanisms such as verifying signatures are left out of scope of this document.
+      (However, if other generally agreed upon mechanisms for handling verification become available in the future, servers are welcome to use those methods, in the future.)
     </p>
     <div class="informative">
       As an example, if example.com receives the activity
@@ -140,8 +142,7 @@
       </pre>
       it should dereference the <code>id</code> both to ensure that it exists
       and is a valid object, and that it is not misrepresenting the object.
-      (In this example, Mallory is likely spoofing an object allegedly posted
-      by Alice.)
+      (In this example, Mallory could be spoofing an object allegedly posted by Alice.)
     </div>
     <div class="issue">Mention requirement of <em>JSON-LD @context</em></div>
     <section id="obj-id">
