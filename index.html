@@ -122,7 +122,7 @@
     <a href="#groups">groups</a>.</p>
     <p>
       Servers SHOULD validate the content they receive to avoid content spoofing attacks.
-      In particular, servers SHOULD NOT trust client submitted content, and federated servers also SHOULD NOT trust content received from a server other than the content's origin.
+      In particular, servers SHOULD NOT trust client submitted content, and federated servers also SHOULD NOT trust content received from a server other than the content's origin without some form of verification.
       The general mecahism that is specified for this at this time is for a recipient of some referenced activitystreams object to verify the presence of that object on the original server.
       Other mechanisms such as verifying signatures are left out of scope of this document.
       (However, if other generally agreed upon mechanisms for handling verification become available in the future, servers are welcome to use those methods, in the future.)
