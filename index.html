@@ -420,12 +420,15 @@
       <p>Streams are always presented in reverse chronological order</p>
       <section id="outbox">
         <h2>Outbox</h2>
-        <p>The <code>outbox</code> stream contains every object that the user
-        has ever published, subject to the ability of the requestor to retrieve
+        <p>The <code>outbox</code> stream contains objects the user
+        has published, subject to the ability of the requestor to retrieve
         the object (That is, the contents of the outbox are filtered by the
         permissions of the person reading it). If a user submits a request
         without <a href="authorization">Authorization</a> the server should
-        respond with all of the <a href="public-addressing">Public</a> posts.</p>
+        respond with all of the <a href="public-addressing">Public</a> posts.
+        This could potentially be all relevant objects published by
+        the user, though the number of available items is left to the descretion
+        of those implementing and deploying the server.</p>
 
         <p>A client may submit an [[!ActivityStreams]] activity to the server
         using a HTTP POST request to the dereferencable URI of the outbox collection.
