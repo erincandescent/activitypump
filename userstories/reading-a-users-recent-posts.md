@@ -18,7 +18,7 @@ Authorization: Bearer xx-bearer-token-here-xx
 {
   "@context": [
     "http://www.w3.org/ns/activitystreams",
-    "http://www.w3.org/ns/activitypump"
+    "http://www.w3.org/ns/activitypub"
   ],
   "@id": "https://example.se/~iris/my-stream",
   "@type": "Collection",
@@ -62,7 +62,7 @@ request to http://samsplace.example/sam/ and sees
 [embedded json-ld](http://www.w3.org/TR/json-ld/#embedding-json-ld-in-html-documents)
 describing an ActivityStreams Actor type.  (Note: this method still
 needs to be agreed upon, see
-[issue 24](https://github.com/w3c-social/activitypump/issues/24)
+[issue 24](https://github.com/w3c-social/activitypub/issues/24)
 for details)
 
 
@@ -78,7 +78,7 @@ Content-Type: text/html
       {
         "@context": [
           "http://www.w3.org/ns/activitystreams",
-          "http://www.w3.org/ns/activitypump"
+          "http://www.w3.org/ns/activitypub"
         ],
         "@type": "Person",
         "@id": "https://samsplace.example/sam/",
@@ -113,7 +113,7 @@ Authorization: Bearer xx-bearer-token-here-xx
 {
   "@context": [
     "http://www.w3.org/ns/activitystreams",
-    "http://www.w3.org/ns/activitypump"
+    "http://www.w3.org/ns/activitypub"
   ],
   "@id": "https://samsplace.example/~sam/my-stream",
   "@type": "Collection",
