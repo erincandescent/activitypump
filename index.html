@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ActivityPump</title>
+    <title>ActivityPub</title>
     <meta charset='utf-8'>
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
             async class='remove'></script>
     <script class='remove'>
       var respecConfig = {
           specStatus: "unofficial",
-          shortName:  "activitypump",
+          shortName:  "activitypub",
           editors: [
                 {
                     name:       "Christopher Allan Webber",
@@ -42,7 +42,7 @@
   </head>
   <body>
     <section id='abstract'>
-      <p>The ActivityPump protocol is a social networking protocol based upon
+      <p>The ActivityPub protocol is a social networking protocol based upon
       the ActivityStreams 2.0 data format. It is based upon experience gained from
       implementing and working with the OStatus and Pump.io protocols.</p>
     </section>
@@ -54,7 +54,7 @@
 
     <section id="Overview">
       <h2>Overview</h2>
-      <p>The ActivityPump protocol is broadly based on the distribution of
+      <p>The ActivityPub protocol is broadly based on the distribution of
       <i>activities</i>, described using [[!ActivityStreams]]; these activities
       are produced in response to a user performing an action. Most activities
       are purely responsive in nature - they are produced as a response to a
@@ -92,13 +92,13 @@
       implement the former protocol, and may optionally implement the latter.
       This gives three conformance classes:</p>
       <dl>
-        <dt>ActivityPump conformant Client</dt>
+        <dt>ActivityPub conformant Client</dt>
         <dd>This designation applies to any implementation of the entirety
         of the client portion of the client to server protocol</dd>
-        <dt>ActivityPump conformant Server</dt>
+        <dt>ActivityPub conformant Server</dt>
         <dd>This designation applies to any implementation of the entirety
         of the server portion of the client to server protocol</dd>
-        <dt>ActivityPump conformant Federated Server</dt>
+        <dt>ActivityPub conformant Federated Server</dt>
         <dd>This designation applies to any implementation of the entirety of
         the server portion of both the client to server and federation
         protocols</dd>
@@ -114,7 +114,7 @@
   <section id="obj">
     <h2>Objects</h2>
     <p>Objects are the core concept around which both [[!ActivityStreams]] and
-    ActivityPump are built. Objects can be divided into three main categories:
+    ActivityPub are built. Objects can be divided into three main categories:
     <a href="#activities">Activities</a>, <a href="#content-objects">Content
     Objects</a> and <a href="#actors">Actors</a>, plus a small collection of
     objects which do not fit into the previous categories such as
@@ -146,8 +146,8 @@
     <section id="obj-id">
       <h2>Object Identifiers</h2>
       <p>All Objects in [[!ActivityStreams]] should have unique global identifiers.
-      ActivityPump extends this requirement; all objects distributed by the
-      ActivityPump protocol MUST have unique global identifiers; these identifiers
+      ActivityPub extends this requirement; all objects distributed by the
+      ActivityPub protocol MUST have unique global identifiers; these identifiers
       must fall into one of the following groups:</p>
       <ol>
         <li>HTTPS URIs with their authority belonging to that of their originating
@@ -240,7 +240,7 @@
 
   <section id="actors">
     <h2>Actors</h2>
-    <p>Actors in ActivityPump are represented by HTTP URI. When entered directly into a user interface (for
+    <p>Actors in ActivityPub are represented by HTTP URI. When entered directly into a user interface (for
     example on a login form), it is desirable to support simplified naming. For
     this purpose cases, ID normalization SHOULD be performed as follows:</p>
     <ol>
@@ -285,7 +285,7 @@
         {
           "@context": [
             "http://www.w3.org/ns/activitystreams",
-            "http://www.w3.org/ns/activitypump"
+            "http://www.w3.org/ns/activitypub"
           ],
           "@type": "Person",
           "@id": "https://johnsmith.example.com/",
@@ -307,7 +307,7 @@
   <section id="authorization">
     <h2>Authorization</h2>
     <p><b>This is a stub, to be expanded. OAuth 2.0 is an open question.</b></p>
-    <p>ActivityPump uses authorization for two purposes; first, to
+    <p>ActivityPub uses authorization for two purposes; first, to
     authenticate clients to servers, and secondly in federated implementations
     to authenticate servers to each other. These methods are based upon the
     OAuth 2.0 authorization framework as specified in [[!RFC6749]]. </p>
@@ -354,7 +354,7 @@
         {
           "@context": [
             "http://www.w3.org/ns/activitystreams",
-            "http://www.w3.org/ns/activitypump"
+            "http://www.w3.org/ns/activitypub"
           ],
           "@id": "https://example.com/~alice/my-stream",
           "@type": "Person",
@@ -372,7 +372,7 @@
 
   <section id="collections">
     <h2>Collections and Streams</h2>
-    <p>[[!ActivityStreams]] defines the collection concept; ActivityPump defines several
+    <p>[[!ActivityStreams]] defines the collection concept; ActivityPub defines several
     collections with special behavior. Additionally, it defines a subset of
     collections termed <a href="#streams">streams</a>. </p>
 
@@ -406,7 +406,7 @@
         {
           "@context": [
             "http://www.w3.org/ns/activitystreams",
-            "http://www.w3.org/ns/activitypump"
+            "http://www.w3.org/ns/activitypub"
           ],
           "@id": "https://example.com/~alice/my-stream",
           "@type": "Collection",
@@ -536,7 +536,7 @@
   <section id="binary-data">
     <h2>Binary Data</h2>
     <p>There is the ability to submit binary data such as images, video or other
-       binary data you wish to use in activitypump. This is done by means of submitting
+       binary data you wish to use in activitypub. This is done by means of submitting
        the binary data to the user's <code>file</code> endpoint. The request MUST contain
        the HTTP headers <code>Content-Type</code> and <code>Content-Length</code>. Upon
        successful submission a response containing the object with an ID is returned that
@@ -576,7 +576,7 @@
           "inReplyTo": {
             "@id": "https://example.org/~john/note/5",
             "@type": "Note",
-            "content": "Hey! This is a note in ActivityPump ^_^"
+            "content": "Hey! This is a note in ActivityPub ^_^"
           }
         }
       </pre>
@@ -591,7 +591,7 @@
     <h2>Activities</h2>
     <p>The core of any [[!ActivityStreams]] based protocol is activities within.
     Users post activities to their <a href="#outbox">outbox</a>, from which they
-    are distributed to recipients' <a href="#inbox">inboxes</a>. ActivityPump
+    are distributed to recipients' <a href="#inbox">inboxes</a>. ActivityPub
     places no restrictions on the activities which may be distributed; however,
     it defines certain activities with special behaviors</p>
     <section id="post-activity">

@@ -32,7 +32,7 @@ Delano's client submits a post to its outbox declaring that Delano
 would like to subscribe to Beth.  Beth is included as a recipient in
 the "to" field so that her server can know to begin delivery of
 messages to Delano, and the special
-[public collection](http://w3c-social.github.io/activitypump/#public-addressing)
+[public collection](http://w3c-social.github.io/activitypub/#public-addressing)
 is added as a Cc: so that others might know about that subscription.
 
 
@@ -82,7 +82,7 @@ Content-Type: text/html
       {
         "@context": [
           "http://www.w3.org/ns/activitystreams",
-          "http://www.w3.org/ns/activitypump"
+          "http://www.w3.org/ns/activitypub"
         ],
         "@type": "Person",
         "@id": "https://acmegamecorp.example/people/beth_m_bost/",
@@ -134,7 +134,7 @@ Beth has settled back from the company retreat and decides to post a
 picture from a whiteboarding session she participated in.  Her client submits
 to the file endpoint for her user
 (note: where the file endpoint is defined still
-[needs to be clarified](https://github.com/w3c-social/activitypump/issues/23))
+[needs to be clarified](https://github.com/w3c-social/activitypub/issues/23))
 and gets back a response object with the object.  The client then
 makes a second post containing addressing of who the file should be
 sent to.
@@ -148,7 +148,7 @@ Authorization: Bearer xx-bearer-token-here-xx
 {
   "@context": [
     "http://www.w3.org/ns/activitystreams",
-    "http://www.w3.org/ns/activitypump"
+    "http://www.w3.org/ns/activitypub"
   ],
   "@type": "Post",
   "actor": {
@@ -185,7 +185,7 @@ Authorization: Bearer xx-bearer-token-here-xx
 {
   "@context": [
     "http://www.w3.org/ns/activitystreams",
-    "http://www.w3.org/ns/activitypump"
+    "http://www.w3.org/ns/activitypub"
   ],
   "@id": "https://acmegamecorp.example/api/user/delano_sota/inbox",
   "@type": "Collection",
@@ -194,7 +194,7 @@ Authorization: Bearer xx-bearer-token-here-xx
     {
       "@context": [
         "http://www.w3.org/ns/activitystreams",
-        "http://www.w3.org/ns/activitypump"
+        "http://www.w3.org/ns/activitypub"
       ],
       "@type": "Post",
       "actor": {

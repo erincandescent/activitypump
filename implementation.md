@@ -1,4 +1,4 @@
-ActivityPump
+ActivityPub
 ============
 
 Implementation overview
