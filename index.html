@@ -146,12 +146,17 @@
 
   <section id="obj">
     <h2>Objects</h2>
-    <p>Objects are the core concept around which both [[!ActivityStreams]] and
-    ActivityPub are built. Objects can be divided into three main categories:
-    <a href="#activities">Activities</a>, <a href="#content-objects">Content
-    Objects</a> and <a href="#actors">Actors</a>, plus a small collection of
-    objects which do not fit into the previous categories such as
-    <a href="#collections">collections</a>.</p>
+    <p>
+      Objects are the core concept around which both [[!ActivityStreams]] and
+      ActivityPub are built.  Objects are often wrapped in Activities
+      and are contained in streams of Collections, which are themselves
+      subclasses of Objects.  See the
+      <a href="https://www.w3.org/TR/activitystreams-vocabulary/">ActivityStreams Vocabulary</a>
+      document, particularly the
+      <a href="https://www.w3.org/TR/activitystreams-vocabulary/#types">Core Classes</a>,
+      to get a sense of how this lays out; ActivityPub follows the
+      mapping of this vocabulary very closely.
+    </p>
     <p>
       Servers SHOULD validate the content they receive to avoid content spoofing attacks.
       In particular, servers SHOULD NOT trust client submitted content, and federated servers also SHOULD NOT trust content received from a server other than the content's origin without some form of verification.
