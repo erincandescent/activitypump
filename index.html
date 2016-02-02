@@ -95,7 +95,7 @@
       user <i>having</i> done something. In addition, certain activities posted
       by a user to their <a href="#outbox">outbox</a> may trigger certain
       operations on the user's behalf. Finally, activities may have side effects
-      as they propogate throughout the social graph. As an example of this:</p>
+      as they propagate throughout the social graph. As an example of this:</p>
       <ol>
         <li>A user posts the <code>like</code> activity to their outbox. This
         activity causes the user's server to perform an activity on behalf of
@@ -213,7 +213,7 @@
       <p>There are several common operations upon social objects, which
       are expressed using standard HTTP methods applied to the Object's
       dereferencable URI. To avoid conflict with existing
-      standards (and hence support "multiprotocol" server implemnetations),
+      standards (and hence support "multiprotocol" server implementations),
       the scope of requests which servers are required to honor as defined in
       this specification is limited as follows:</p>
       <ul>
@@ -228,7 +228,7 @@
         to select the type of data to return in response to a request. For
         requests without a body, an <code>Accept</code> header MUST be
         specified, and the behavior defined by this specification ONLY applies
-        if content negotion results in the selection of the
+        if content negotiation results in the selection of the
         <code>application/activity+json</code> media type. For requests
         with a body, the client MAY omit the <code>Accept</code> header, in
         which case the server MUST provide successful responses as defined by this
@@ -306,7 +306,7 @@
         refer to the actor, with no uniqueness guarantees</dd>
         <dt>name</dt><dd>The preferred "nickname" or "display name" of
         the actor</dd>
-        <dt>summary</dt><dd>A quick summary or bio by the user about themself</dd>
+        <dt>summary</dt><dd>A quick summary or bio by the user about themselves</dd>
         <dt>icon</dt><dd>A media link to the user's profile picture (this may
         be a thumbnail)</dd>
       </dl>
@@ -431,7 +431,7 @@
 
     <section id="streams">
       <h2>Streams</h2>
-      <p>The streams nomencluture is applied to any collection comprosed purely of
+      <p>The streams nomenclature is applied to any collection comprised purely of
       activities. These objects should be so declared using the <code>objectTypes</code>
       property:</p>
       <pre class="example">
@@ -500,7 +500,7 @@
     recipient <i>agent's</i> inbox</p>
     <section id="delivery">
       <h2>Delivery</h2>
-      <p>Activity distribution and access control is per the audience targetting
+      <p>Activity distribution and access control is per the audience targeting
       properties from the [[!ActivityStreams]] specification. For each entry in the
       addressing properties of an object, the server shall</p>
       <ol>
@@ -533,11 +533,11 @@
       <h2>Notification</h2>
       <p>When a user creates an activity (by submitting it to their
       <a href="#outbox">outbox</a>), the server should perform <i>notification</i>.
-      Notification is the process of propogating awareness of the new activity to
+      Notification is the process of propagating awareness of the new activity to
       the activity's origin server such that the origin can act upon the activity
       (for example, notification that a user has liked an object is used to update
       the object's like count) and distribute the activity to ensure that it is
-      propogated to the whole social graph which received the original object.</p>
+      propagated to the whole social graph which received the original object.</p>
       <p>Notifications shall be sent to each of the following objects:</p>
       <ul>
         <li>The Objects specified by the activity's "object" and "target" properties</li>
@@ -620,7 +620,7 @@
       <p><b>This is only applicable to federated implementations:</b> When a response
       is sent to the outbox of a user, it should be propagated to the original server
       that authored the object that the response is in reply to. That server should then
-      send that response to all recipiants that the original object was sent to.</p>
+      send that response to all recipients that the original object was sent to.</p>
     </section>
   </section>
 
