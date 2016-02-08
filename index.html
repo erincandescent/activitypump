@@ -430,22 +430,11 @@
 
     <section id="streams">
       <h2>Streams</h2>
-      <p>The streams nomencluture is applied to any collection comprosed purely of
-      activities. These objects should be so declared using the <code>objectTypes</code>
-      property:</p>
-      <pre class="example">
-        {
-          "@context": [
-            "http://www.w3.org/ns/activitystreams",
-            "http://www.w3.org/ns/activitypub"
-          ],
-          "@id": "https://example.com/~alice/my-stream",
-          "@type": "Collection",
-          "itemsType": ["activity"]
-          "items": [ ... ]
-        }
-      </pre>
-      <p>Streams are always presented in reverse chronological order</p>
+      <p>
+        Streams are collections of ActivityStreams objects,
+        generally <a href="http://www.w3.org/ns/activitystreams#Activity">Activities</a>,
+        which are always presented in reverse chronological order.
+      </p>
       <section id="outbox">
         <h2>Outbox</h2>
         <p>The <code>outbox</code> stream contains objects the user
