@@ -504,15 +504,15 @@
         collection (with the user's credentials) and add each person in the
         collection to the list of recipients for the message. Servers MUST
         limit the number of layers of indirections through collections which
-        will be performed, which MAY be one.
+        will be performed, which MAY be one.</li>
         <li>If the entry is not a collection, then the server MUST perform
         discovery on the object (which may not be of person
-        <code>type</code>) to discover its activity-inbox address
+        <code>type</code>) to discover its activity-inbox address</li>
         <li>Once the complete list of recipients has been determined, the
         server MUST then deliver the activity to each recipient. For a federated
         implementation, this must be done by performing a HTTP POST, with
         authorization as the submitting user, of the submitted activity body to
-        the URI of the <a href="#inbox">inbox</a> collection of each recipient
+        the URI of the <a href="#inbox">inbox</a> collection of each recipient</li>
       </ol>
       <p>For federated servers performing delivery to a 3rd party server,
       delivery SHOULD be performed asynchronously to completion of
