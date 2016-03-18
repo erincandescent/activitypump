@@ -170,6 +170,8 @@
        {
          "type": "Like",
          "actor": "https://example.net/~mallory",
+         "to": ["https://hatchat.example/sarah/",
+                "https://example.com/peeps/john/],
          "object": {
            "id": "https://example.org/~alice/note/23",
            "type": "Note",
@@ -576,6 +578,9 @@
         "@context": "",
         "id": "http://example.com/~erik/photos/1",
         "type": "Image",
+        "to": ["http://example.com/~erik/public",
+               "http://example.org/~sarah/"],
+        "cc": ["http://example.com/~erik/followers"],
         "url": [
           {
             "type": "Link",
@@ -602,6 +607,8 @@
           "id": "https://example.com/~alice/note/72",
           "type": "Note",
           "content": "This is a reply to a note posted by John Smith!",
+          "to": ["https://example.org/~john/"],
+          "cc": ["http://example.com/~erik/followers"],
           "inReplyTo": {
             "id": "https://example.org/~john/note/5",
             "type": "Note",
