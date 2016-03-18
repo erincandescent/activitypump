@@ -169,10 +169,10 @@
       <pre class="example">
        {
          "@context": "http://www.w3.org/ns/activitystreams",
-         "@type": "Like",
+         "type": "Like",
          "actor": "https://example.net/~mallory",
          "object": {
-           "@id": "https://example.org/~alice/note/23",
+           "id": "https://example.org/~alice/note/23",
            "author": "https://example.org/~alice",
            "content": "I'm a goat"
          }
@@ -203,8 +203,8 @@
       object.</p>
       <p>All objects must have the following properties:</p>
       <dl>
-        <dt>@id</dt><dd>The object's unique global identifier</dd>
-        <dt>@type</dt><dd>The type of the object</dd>
+        <dt>id</dt><dd>The object's unique global identifier</dd>
+        <dt>type</dt><dd>The type of the object</dd>
       </dl>
     </section>
 
@@ -254,7 +254,7 @@
         <p><b>This method requires <a href="#authorization-user">user authorization</a></b></p>
         <p>The PUT method may be used by a client to update the version of the
         object stored on the server.</p>
-        <p>The server MUST insert an activity with the <code>@type</code> <code>Update</code>
+        <p>The server MUST insert an activity with the <code>type</code> <code>Update</code>
         and this object as its <code>object</code> into the actor's
         <a href="#outbox">feed</a>.</p>
       </section>
@@ -313,8 +313,8 @@
             "http://www.w3.org/ns/activitystreams",
             "http://www.w3.org/ns/activitypub"
           ],
-          "@type": "Person",
-          "@id": "https://johnsmith.example.com/",
+          "type": "Person",
+          "id": "https://johnsmith.example.com/",
           "following": "https://johnsmith.example.com/following.json",
           "followers": "https://johnsmith.example.com/followers.json",
           "inbox": "https://johnsmith.example.com/inbox.json",
@@ -382,8 +382,8 @@
             "http://www.w3.org/ns/activitystreams",
             "http://www.w3.org/ns/activitypub"
           ],
-          "@id": "https://example.com/~alice/my-stream",
-          "@type": "Person",
+          "id": "https://example.com/~alice/my-stream",
+          "type": "Person",
           "name": "Alice",
           "summary": "Hai, I'm Alice!",
           "inbox": "https://example.com/~alice/inbox",
@@ -474,7 +474,7 @@
         activity is addressed both to a user's followers, and a specific user
         which happens to follow said user, and the server has failed to
         de-duplicate the recipients list, for example). Such deduplication MUST
-        be performed by comparing the <code>@id</code> of the activities and
+        be performed by comparing the <code>id</code> of the activities and
         dropping any activities already seen.</p>
       </section>
     </section>
@@ -499,7 +499,7 @@
         will be performed, which MAY be one.
         <li>If the entry is not a collection, then the server MUST perform
         discovery on the object (which may not be of person
-        <code>@type</code>) to discover its activity-inbox address
+        <code>type</code>) to discover its activity-inbox address
         <li>Once the complete list of recipients has been determined, the
         server MUST then deliver the activity to each recipient. For a federated
         implementation, this must be done by performing a HTTP POST, with
@@ -543,8 +543,8 @@
       <pre class="example">
         {
           "@context": "http://www.w3.org/ns/activitystreams",
-          "@id": "http://activityschema.org/collection/public",
-          "@type": "Collection"
+          "id": "http://activityschema.org/collection/public",
+          "type": "Collection"
         }
       </pre>
       <p>Activities addressed to this special URI shall be accessible to all
@@ -568,11 +568,11 @@
     <pre class="example">
       {
         "@context": "",
-        "@id": "http://example.com/~erik/photos/1",
-        "@type": "Image",
+        "id": "http://example.com/~erik/photos/1",
+        "type": "Image",
         "url": [
           {
-            "@type": "Link",
+            "type": "Link",
             "href": "http://example.com/~erik/photos/1.png",
             "mediaType": "image/png"
           }
@@ -593,12 +593,12 @@
       <pre class="example">
         {
           "@context": "http://www.w3.org/ns/activitystreams",
-          "@id": "https://example.com/~alice/note/72",
-          "@type": "Note",
+          "id": "https://example.com/~alice/note/72",
+          "type": "Note",
           "content": "This is a reply to a note posted by John Smith!",
           "inReplyTo": {
-            "@id": "https://example.org/~john/note/5",
-            "@type": "Note",
+            "id": "https://example.org/~john/note/5",
+            "type": "Note",
             "content": "Hey! This is a note in ActivityPub ^_^"
           }
         }
@@ -639,8 +639,8 @@
 <pre class="example">
   {
     "@context": "http://www.w3.org/ns/activitystreams",
-    "@id": "https://example.com/~alice/note/72",
-    "@type": "Note",
+    "id": "https://example.com/~alice/note/72",
+    "type": "Note",
     "published": "2015-02-10T15:04:55Z",
     "updated": "2015-02-10T15:04:55Z",
     "deleted": "2015-02-10T15:04:55Z",
