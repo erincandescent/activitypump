@@ -531,6 +531,35 @@
       </p>
 
     </section>
+    <section id="access-control">
+      <h2>Access Control</h2>
+      <p>
+        Access control is used to enforce permissions on objects; see
+        <a href="#authorization"></a>.
+      </p>
+
+      <p>
+        Access control is largely informed by addressing and
+        <a href="#delivery"></a>.
+        (Implementations MAY provide additional methods of expansion
+        or redaction of access beyond that of delivery.)
+        Most implementations will resolve this via internally
+        maintained access control lists.
+        Implementations SHOULD provide initial access to recipients
+        specified for delivery on an activity (recipients on a wrapped
+        object however SHOULD be ignored).
+      </p>
+
+      <p>
+        A recipient receiving access through addressing to special
+        collections of actors
+        <!-- TODO: Include link to description of group collections,
+           when this exists -->
+        MAY be later removed from this group, and thus MAY also be removed
+        from future access to the activity (and potentially its enclosing
+        object).
+      </p>
+    </section>
     <section id="notification">
       <h2>Notification</h2>
       <p>When a user creates an activity (by submitting it to their
