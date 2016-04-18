@@ -200,9 +200,13 @@
         <li>An ID explicitly specified as the JSON <code>null</code> object, which
         implies an anonymous object (a part of its parent context)</li>
       </ol>
-      <p>A server receiving an object with no specified <code>id</code> should
-      allocate an object ID in the user's namespace and attach it to the posted
-      object.</p>
+      <p>
+        Identifiers MUST be provided for activities posted in server to server
+        communication.
+        However, for client to server communication, a server receiving an
+        object with no specified <code>id</code> should allocate an object
+        ID in the user's namespace and attach it to the posted object.
+      </p>
       <p>All objects must have the following properties:</p>
       <dl>
         <dt>id</dt><dd>The object's unique global identifier</dd>
