@@ -482,7 +482,10 @@
         dereferencable URI of the <code>inbox</code> endpoint. This request
         MUST be authenticated with the credentials of the user identified by the
         <code>actor</code> stanza of the activity being delivered. The request
-        MUST be of the [[!ActivityStreams]] content type; it MUST be a single activity.</p>
+        MUST be of the [[!ActivityStreams]] content type; it MUST be a single activity.
+        The server MUST ensure the validity of the posted and any enclosed
+        objects (generally by dereferencing the object on the originating server.)
+        </p>
 
         <p>The server MUST perform de-duplication of activities, whereby it
         discards repeats of already delivered activities (this can occur if an
