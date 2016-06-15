@@ -427,6 +427,13 @@
           <dd>
             The preferred "nickname" or "display name" of the actor.
           </dd>
+          <!-- TODO: Maybe replace mediaEndpoint with a general "endpoints"
+               field, including for oauth endpoints, etc... kind of how we do
+               with the "streams" field? -->
+          <dt id="mediaEndpoint">mediaEndpoint</dt>
+          <dd>
+            Upload endpoint URI for this user for binary data.
+          </dd>
         </dl>
         <pre class="example">
           {
@@ -832,7 +839,8 @@
         There is the ability to submit binary data such as images, video or
         other binary data you wish to use in ActivityPub.
         This is done by means of submitting the binary data to the user's
-        <code>file</code> endpoint.
+        <a href="#mediaEndpoint"><code>mediaEndpoint</code></a> on their
+        ActivityStreams profile object.
         The request MUST contain the HTTP headers <code>Content-Type</code> and
         <code>Content-Length</code>.
         Upon successful submission a response containing the object with an ID
